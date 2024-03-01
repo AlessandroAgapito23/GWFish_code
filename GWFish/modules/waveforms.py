@@ -568,9 +568,8 @@ class TaylorF2(Waveform):
 
         PN = self.gw_params['PN']
         beta = self.gw_params['beta']
-    
 
-    
+        
         M = M1 + M2
         mu = M1 * M2 / M
     
@@ -619,7 +618,7 @@ class TaylorF2(Waveform):
     
         self.psi *= 3. / (128. * eta * v ** 5)
         self.psi += 2. * np.pi * ff * tc - phic - np.pi / 4.
-        self.psi += beta*(np.pi*ff**Mc)**((2*PN-5)/3)  #ppe correction at every b order
+        self.psi += beta*(np.pi*ff*Mc)**((2*PN-5)/3)  #ppe correction at every b order
     
         phase = np.exp(1.j * self.psi)
         polarizations = np.hstack((hp * phase, hc * 1.j * phase))
