@@ -187,7 +187,7 @@ class Waveform:
             #NS parameters
             'lambda_1': 0., 'lambda_2': 0., 
             #ppe parameters
-            'beta':0, 'PN':0
+            'beta':0., 'PN':0.
         }
 
     def update_gw_params(self, new_gw_params):
@@ -563,9 +563,7 @@ class TaylorF2(Waveform):
         iota = self.gw_params['theta_jn']
         M1 = self.gw_params['mass_1'] * (1 + z) * cst.Msol
         M2 = self.gw_params['mass_2'] * (1 + z) * cst.Msol
-
-        #PPE parameters
-
+        
         PN = self.gw_params['PN']
         beta = self.gw_params['beta']
 
@@ -618,7 +616,7 @@ class TaylorF2(Waveform):
     
         self.psi *= 3. / (128. * eta * v ** 5)
         self.psi += 2. * np.pi * ff * tc - phic - np.pi / 4.
-        self.psi += beta*(np.pi*ff*Mc)**((2*PN-5)/3)  #ppe correction at every b order
+        self.psi += beta*((np.pi*ff*Mc)**((2*PN-5)/3))  #ppe correction at every b = 2PN -5 order
     
         phase = np.exp(1.j * self.psi)
         polarizations = np.hstack((hp * phase, hc * 1.j * phase))
