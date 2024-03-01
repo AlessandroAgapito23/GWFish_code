@@ -590,21 +590,14 @@ class TaylorF2(Waveform):
     
         # coefficients of the PN expansion (https://arxiv.org/pdf/0907.0700.pdf)
         pp = np.hstack((1. * ones, 
-                        
                         0. * ones, 
-
                         20. / 9. * (743. / 336. + eta * 11. / 4.) * ones,
-
                         -16 * np.pi * ones, 
-
                         10. * (3058673. / 1016064. + 5429. / 1008. * eta + 617. / 144. * eta ** 2) * ones, 
-
                         np.pi * (38645. / 756. - 65. / 9. * eta) * (1 + 3. * np.log(v)),
-
                         11583231236531. / 4694215680. - 640. / 3. * np.pi ** 2 - 6848. / 21. * (C + np.log(4 * v)) + \
                         (-15737765635. / 3048192. + 2255. / 12. * \
                         np.pi ** 2) * eta + 76055. / 1728. * eta ** 2 - 127825. / 1296. * eta ** 3,
-
                         np.pi * (77096675. / 254016. + 378515. / 1512. *  eta - 74045. / 756. * eta ** 2) * ones))
     
         self.psi = 0.
@@ -1137,7 +1130,7 @@ class IMRPhenomD_PPE(Waveform):
 
         #PPE parameters
 
-        b = self.gw_params['b']
+        PN = self.gw_params['PN']
         beta = self.gw_params['beta']
     
     
@@ -1179,7 +1172,7 @@ class IMRPhenomD_PPE(Waveform):
                 phi_5 +\
                 phi_6*(np.pi*ff)**(1./3.) +\
                 phi_7*(np.pi*ff)**(2./3.)) +\
-                beta*(np.pi*frequencyvector*Mc)**(b/3)  #ppe correction at every b order
+                beta*((np.pi*frequencyvector*Mc)**((2*PN-5)/3))  #ppe correction at every b order
         
         #LATE INSPIRAL Phase Coefficients >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         #(sigma0=sigma1=0 due tu phase translation)
