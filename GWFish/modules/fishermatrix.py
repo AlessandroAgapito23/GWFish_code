@@ -14,16 +14,6 @@ from tqdm import tqdm
 import logging
 from pathlib import Path
 
-def get_waveform_class(model_name):
-    if model_name == 'IMRPhenomD':
-        return IMRPhenomD # Sostituisci con la classe corrispondente
-    elif model_name == 'TaylorF2':
-        return TaylorF2  # Sostituisci con la classe corrispondente
-    elif model_name == 'IMRPhenomD_PPE':
-        return IMRPhenomD_PPE  # Sostituisci con la classe corrispondente
-    else:
-        raise ValueError("Modello non supportato")
-
 def invertSVD(matrix):
     thresh = 1e-10
 
@@ -245,7 +235,7 @@ def compute_detector_fisher(
     signal_parameter_values: Union[pd.DataFrame, dict[str, float]],
     fisher_parameters: Optional[list[str]] = None,
     waveform_model : str = wf.WAVEFORM_MODEL,
-    waveform_class = wf.get_waveform_class(WAVEFORM_CLASS),
+    waveform_class = wf.IMRPhenomD_PPE,
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
 ) -> tuple[np.ndarray, float]:
@@ -315,7 +305,7 @@ def compute_network_errors(
     parameter_values: pd.DataFrame,
     fisher_parameters: Optional[list[str]] = None,
     waveform_model : str = wf.WAVEFORM_MODEL,
-    waveform_class = wf.get_waveform_class(WAVEFORM_CLASS),
+    waveform_class = wf.IMRPhenomD_PPE,
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
     save_matrices: bool = False,
