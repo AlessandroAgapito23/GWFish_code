@@ -233,8 +233,8 @@ def compute_detector_fisher(
     detector: det.Detector,
     signal_parameter_values: Union[pd.DataFrame, dict[str, float]],
     fisher_parameters: Optional[list[str]] = None,
-    waveform_model: str = wf.DEFAULT_WAVEFORM_MODEL,
-    waveform_class: type(wf.Waveform) = wf.LALFD_Waveform,
+    waveform_model: str = wf.WAVEFORM_MODEL,
+    waveform_class: type(wf.Waveform) = wf.WAVEFORM_CLASS,
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
 ) -> tuple[np.ndarray, float]:
