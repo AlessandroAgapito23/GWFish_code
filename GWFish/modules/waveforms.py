@@ -28,8 +28,9 @@ import GWFish.modules.fft as fft
 ########################### FUNCTION DEFINITIONS ###############################
 ################################################################################
 
-WAVEFORM_MODEL = 'IMRPhenomD_PPE'
-WAVEFORM_CLASS = 'IMRPhenomD_PPE'
+# Chiedi all'utente di inserire il nome del modello e della classe
+WAVEFORM_MODEL = input("Waveform model: ")
+WAVEFORM_CLASS = input("Waveform class: ")
 
 def convert_args_list_to_float(*args_list):
     """
