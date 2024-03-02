@@ -23,15 +23,12 @@ import GWFish as gw
 import GWFish.modules.constants as cst
 import GWFish.modules.auxiliary as aux
 import GWFish.modules.fft as fft
-import GWFish.modules.fishermatrix as fm
 
 ################################################################################
 ########################### FUNCTION DEFINITIONS ###############################
 ################################################################################
 
-# Chiedi all'utente di inserire il nome del modello e della classe
-MODEL = input("Waveform model: ")
-fm.WAVEFORM_MODEL = fm.WAVEFORM_CLASS = 'MODEL'
+WAVEFORM_MODEL = 'IMRPhenomD_PPE'
 
 def convert_args_list_to_float(*args_list):
     """
