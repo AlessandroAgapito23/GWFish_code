@@ -627,7 +627,7 @@ class TaylorF2(Waveform):
         for k in np.arange(self.maxn):
 
             PNc = pp[:, k]
-            self.psi += PNc[:, np.newaxis] * v ** k #sum over all the corrections
+            self.psi += (PNc[:, np.newaxis] * v) ** k #sum over all the corrections
 
         ############################ PHASE COMPONENTS ##########################
         
@@ -650,12 +650,12 @@ class TaylorF2(Waveform):
         
 ######################################################################################
     
-    def print_phase(self):
-        """Prints the values of self.psi"""
-        if self.psi is not None:
-            print(self.phase)
-        else:
-            print("Phase has not been calculated yet. Run calculate_frequency_domain_strain() first.")
+    #def print_phase(self):
+     # """Prints the values of self.psi"""
+       # if self.psi is not None:
+           # print(self.phase)
+        #else:
+           # print("Phase has not been calculated yet. Run calculate_frequency_domain_strain() first.")
         
 #####################################################################################
         
