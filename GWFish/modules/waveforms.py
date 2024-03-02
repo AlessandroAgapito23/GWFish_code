@@ -29,7 +29,8 @@ import GWFish.modules.fft as fft
 ################################################################################
 
 # Chiedi all'utente di inserire il nome del modello e della classe
-WAVEFORM_MODEL = input("Waveform model: ")
+MODEL = input("Waveform model: ")
+WAVEFORM_MODEL ='MODEL'
 
 def convert_args_list_to_float(*args_list):
     """
