@@ -576,8 +576,8 @@ class TaylorF2(Waveform):
         M1 = self.gw_params['mass_1'] * (1 + z) * cst.Msol
         M2 = self.gw_params['mass_2'] * (1 + z) * cst.Msol
         
-        PN = self.gw_params['PN']
-        beta = self.gw_params['beta']
+        #PN = self.gw_params['PN']
+        #beta = self.gw_params['beta']
 
         
         M = M1 + M2
@@ -630,7 +630,7 @@ class TaylorF2(Waveform):
         
         self.psi *= 3. / (128. * eta * v ** 5)
         self.psi += 2. * np.pi * ff * tc - phic - np.pi / 4.
-        self.psi += beta*((np.pi*ff*Mc)**((2*PN-5)/3))  #ppe correction at every b = 2PN -5 order
+        #self.psi += beta*((np.pi*ff*Mc)**((2*PN-5)/3))  #ppe correction at every b = 2PN -5 order
 
         ########################### PHASE OUTPUT ###############################
 
