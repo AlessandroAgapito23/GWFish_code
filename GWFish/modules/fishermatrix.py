@@ -4,6 +4,7 @@ import GWFish.modules.detection as det
 import GWFish.modules.auxiliary as aux
 import GWFish.modules.fft as fft
 
+
 import copy
 import pandas as pd
 from typing import Optional, Union
@@ -12,6 +13,16 @@ from tqdm import tqdm
 
 import logging
 from pathlib import Path
+
+def get_waveform_class(model_name):
+    if model_name == 'IMRPhenomD':
+        return IMRPhenomD # Sostituisci con la classe corrispondente
+    elif model_name == 'TaylorF2':
+        return TaylorF2  # Sostituisci con la classe corrispondente
+    elif model_name == 'IMRPhenomD_PPE':
+        return IMRPhenomD_PPE  # Sostituisci con la classe corrispondente
+    else:
+        raise ValueError("Modello non supportato")
 
 def invertSVD(matrix):
     thresh = 1e-10
@@ -228,16 +239,6 @@ def sky_localization_percentile_factor(
     """
     
     return - 2 * np.log(1 - percentile / 100.) * (180 / np.pi)**2
-        
-def get_waveform_class(model_name):
-    if model_name == 'IMRPhenomD':
-        return IMRPhenomD # Sostituisci con la classe corrispondente
-    elif model_name == 'TaylorF2':
-        return TaylorF2  # Sostituisci con la classe corrispondente
-    elif model_name == 'IMRPhenomD_PPE':
-        return IMRPhenomD_PPE  # Sostituisci con la classe corrispondente
-    else:
-        raise ValueError("Modello non supportato")
         
 def compute_detector_fisher(
     detector: det.Detector,
