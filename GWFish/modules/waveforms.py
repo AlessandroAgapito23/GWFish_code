@@ -23,7 +23,7 @@ import GWFish as gw
 import GWFish.modules.constants as cst
 import GWFish.modules.auxiliary as aux
 import GWFish.modules.fft as fft
-import GWFish.modules.fm as fm
+import GWFish.modules.fishermatrix as fm
 
 ################################################################################
 ########################### FUNCTION DEFINITIONS ###############################
