@@ -148,8 +148,7 @@ class Waveform:
         return self.frequency_domain_strain
 
     def calculate_frequency_domain_strain(self):
-        raise NotImplementedError('Frequency-domain strain is not'+\
-                                  'implemented in this class')
+        raise NotImplementedError('Frequency-domain strain is not'+ 'implemented in this class')
 
     @property
     def frequency_domain_strain(self):
@@ -166,8 +165,7 @@ class Waveform:
         return self._frequency_domain_strain
 
     def calculate_time_domain_strain(self):
-        raise NotImplementedError('Time-domain strain is not implemeted'+\
-                                  'in this class')
+        raise NotImplementedError('Time-domain strain is not implemeted'+'in this class')
 
     @property
     def time_domain_strain(self):
@@ -183,9 +181,18 @@ class Waveform:
 
     def _set_default_gw_params(self):
         self.gw_params = {
-            'mass_1': 0., 'mass_2': 0., 'luminosity_distance': 0., 
-            'redshift': 0., 'theta_jn': 0., 'phase': 0., 'geocent_time': 0., 
-            'a_1': 0., 'tilt_1': 0., 'phi_12': 0., 'a_2': 0., 'tilt_2': 0., 
+            'mass_1': 0., 
+            'mass_2': 0., 
+            'luminosity_distance': 0., 
+            'redshift': 0., 
+            'theta_jn': 0., 
+            'phase': 0., 
+            'geocent_time': 0., 
+            'a_1': 0., 
+            'tilt_1': 0., 
+            'phi_12': 0., 
+            'a_2': 0., 
+            'tilt_2': 0., 
             'phi_jl': 0., 
             #NS parameters
             'lambda_1': 0., 'lambda_2': 0., 
@@ -536,8 +543,7 @@ class TaylorF2(Waveform):
         self._maxn = None
         self.psi = None
         if self.name != 'TaylorF2':
-            logging.warning('Different waveform name passed to TaylorF2: '+\
-                             self.name)
+            logging.warning('Different waveform name passed to TaylorF2: '+ self.name)
 
     @property
     def maxn(self):
