@@ -189,7 +189,7 @@ class Waveform:
             'phi_jl': 0., 
             #NS parameters
             'lambda_1': 0., 'lambda_2': 0., 
-            #ppe parameters
+            #ppE parameters
             'beta':0., 'PN':0.
         }
 
