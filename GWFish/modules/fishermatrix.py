@@ -304,7 +304,7 @@ def compute_network_errors(
     parameter_values: pd.DataFrame,
     fisher_parameters: Optional[list[str]] = None,
     waveform_model: str = wf.DEFAULT_WAVEFORM_MODEL,
-    waveform_class : type(wf.Waveform) = wf.TaylorF2,
+    waveform_class : type(wf.Waveform) = wf.LALFD_Waveform,
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
     save_matrices: bool = False,
