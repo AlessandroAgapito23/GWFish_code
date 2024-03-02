@@ -32,6 +32,22 @@ import GWFish.modules.fft as fft
 MODEL = input("Waveform model: ")
 WAVEFORM_MODEL ='MODEL'
 
+def get_waveform_class(model_name):
+    if model_name == 'IMRPhenomD':
+        return IMRPhenomD  # Sostituisci con la classe corrispondente
+    elif model_name == 'TaylorF2':
+        return TaylorF2  # Sostituisci con la classe corrispondente
+    elif model_name == 'IMRPhenomD_PPE':
+        return IMRPhenomD_PPE  # Sostituisci con la classe corrispondente
+    else:
+        raise ValueError("Modello non supportato")
+
+# Chiedi all'utente di inserire il nome del modello
+model_name = input("Model name: ")
+
+# Ottieni la classe corrispondente al nome del modello
+WAVEFORM_CLASS = get_waveform_class(model_name)
+
 def convert_args_list_to_float(*args_list):
     """
     Converts inputs to floats, returns a list in the same order as the 
