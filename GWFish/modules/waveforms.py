@@ -639,6 +639,13 @@ class TaylorF2(Waveform):
         polarizations[np.where(ff[:,0] > 4 * f_isco), :] = 0.j
 
         self._frequency_domain_strain = polarizations
+
+    def print_psi(self):
+        """Prints the values of self.psi"""
+        if self.psi is not None:
+            print(self.psi)
+        else:
+            print("Psi has not been calculated yet. Run calculate_frequency_domain_strain() first.")
         
 #####################################################################################
         
