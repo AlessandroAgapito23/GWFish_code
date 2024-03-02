@@ -24,8 +24,10 @@ import GWFish.modules.constants as cst
 import GWFish.modules.auxiliary as aux
 import GWFish.modules.fft as fft
 
-
+################################################################################
 ########################### FUNCTION DEFINITIONS ###############################
+################################################################################
+
 DEFAULT_WAVEFORM_MODEL = 'IMRPhenomD'
 
 def convert_args_list_to_float(*args_list):
@@ -111,8 +113,9 @@ def t_of_f_PN(parameters, frequencyvector):
 
     return t_of_f+parameters['geocent_time']
 
-
+################################################################################
 ################### WAVEFORMS PARAMETERS AND VARIABLES #########################
+################################################################################
 
 class Waveform:
     def __init__(self, name, gw_params, data_params):
@@ -550,6 +553,9 @@ class TaylorF2(Waveform):
 
     def calculate_frequency_domain_strain(self):
 
+        ########################################################################
+        ############################# PARAMETERS ###############################
+        ########################################################################
 
         ff = self.frequencyvector[:,np.newaxis]
         ones = np.ones((len(ff), 1))
@@ -579,15 +585,22 @@ class TaylorF2(Waveform):
     
         f_isco = aux.fisco(self.gw_params)  #inner stable circular orbit 
     
-        v = (np.pi * cst.G * M / cst.c ** 3 * ff) ** (1. / 3.)  #orbital velocity
+        v = (np.pi * cst.G * M / cst.c ** 3 * ff) ** (1. / 3.)  #orbital v/c
+        
 
+        ########################################################################
+        ############################# AMPLITUDE ################################
+        ########################################################################
+        
         # compute GW AMPLITUDES (https://arxiv.org/pdf/2012.01350.pdf)
-        hp = cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / \
-             (np.pi * ff) ** (7. / 6.) * (1. + np.cos(iota) ** 2.)
-        hc = cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / \
-             (np.pi * ff) ** (7. / 6.) * 2. * np.cos(iota)
-    
-    
+        hp = cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * ff) ** (7. / 6.) * (1. + np.cos(iota) ** 2.)
+        hc = cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * ff) ** (7. / 6.) * 2. * np.cos(iota)
+
+        ########################################################################  
+        ############################### PHASE ##################################
+        ########################################################################
+        ######################### PN expansion of phase ########################
+
         # coefficients of the PN expansion (https://arxiv.org/pdf/0907.0700.pdf)
         pp = np.hstack((1. * ones, 
                         0. * ones, 
@@ -606,12 +619,20 @@ class TaylorF2(Waveform):
 
             PNc = pp[:, k]
             self.psi += PNc[:, np.newaxis] * v ** k #sum over all the corrections
-    
+
+        ############################ PHASE COMPONENTS ##########################
+        
         self.psi *= 3. / (128. * eta * v ** 5)
         self.psi += 2. * np.pi * ff * tc - phic - np.pi / 4.
         self.psi += beta*((np.pi*ff*Mc)**((2*PN-5)/3))  #ppe correction at every b = 2PN -5 order
-    
+
+
+        ########################### PHASE OUTPUT ###############################
+
         phase = np.exp(1.j * self.psi)
+
+        ########################### OUTPUT #####################################
+        
         polarizations = np.hstack((hp * phase, hc * 1.j * phase))
 
         # Very crude high-f cut-off:
