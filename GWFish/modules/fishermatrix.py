@@ -228,13 +228,23 @@ def sky_localization_percentile_factor(
     """
     
     return - 2 * np.log(1 - percentile / 100.) * (180 / np.pi)**2
-
+        
+def get_waveform_class(model_name):
+    if model_name == 'IMRPhenomD':
+        return IMRPhenomD # Sostituisci con la classe corrispondente
+    elif model_name == 'TaylorF2':
+        return TaylorF2  # Sostituisci con la classe corrispondente
+    elif model_name == 'IMRPhenomD_PPE':
+        return IMRPhenomD_PPE  # Sostituisci con la classe corrispondente
+    else:
+        raise ValueError("Modello non supportato")
+        
 def compute_detector_fisher(
     detector: det.Detector,
     signal_parameter_values: Union[pd.DataFrame, dict[str, float]],
     fisher_parameters: Optional[list[str]] = None,
-    waveform_model,
-    waveform_class,
+    waveform_model : str = wf.WAVEFORM_MODEL,
+    waveform_class type(wf.Waveform) = wf.get_waveform_class(WAVEFORM_CLASS),
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
 ) -> tuple[np.ndarray, float]:
@@ -303,8 +313,8 @@ def compute_network_errors(
     network: det.Network,
     parameter_values: pd.DataFrame,
     fisher_parameters: Optional[list[str]] = None,
-    waveform_model,
-    waveform_class,
+    waveform_model : str = wf.WAVEFORM_MODEL,
+    waveform_class  type(wf.Waveform) = wf.get_waveform_class(WAVEFORM_CLASS),
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
     save_matrices: bool = False,
