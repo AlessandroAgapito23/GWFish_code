@@ -28,7 +28,8 @@ import GWFish.modules.fft as fft
 ########################### FUNCTION DEFINITIONS ###############################
 ################################################################################
 
-DEFAULT_WAVEFORM_MODEL = 'TaylorF2'
+WAVEFORM_MODEL = 'IMRPhenomD_PPE'
+WAVEFORM_CLASS = 'IMRPhenomD_PPE'
 
 def convert_args_list_to_float(*args_list):
     """
