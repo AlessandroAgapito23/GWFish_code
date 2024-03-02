@@ -34,11 +34,11 @@ WAVEFORM_MODEL ='MODEL'
 
 def get_waveform_class(model_name):
     if model_name == 'IMRPhenomD':
-        return IMRPhenomD  # Sostituisci con la classe corrispondente
+        return IMRPhenomD(Waveform)  # Sostituisci con la classe corrispondente
     elif model_name == 'TaylorF2':
-        return TaylorF2  # Sostituisci con la classe corrispondente
+        return TaylorF2(Waveform)  # Sostituisci con la classe corrispondente
     elif model_name == 'IMRPhenomD_PPE':
-        return IMRPhenomD_PPE  # Sostituisci con la classe corrispondente
+        return IMRPhenomD_PPE(Waveform)  # Sostituisci con la classe corrispondente
     else:
         raise ValueError("Modello non supportato")
 
