@@ -626,7 +626,6 @@ class TaylorF2(Waveform):
         self.psi += 2. * np.pi * ff * tc - phic - np.pi / 4.
         self.psi += beta*((np.pi*ff*Mc)**((2*PN-5)/3))  #ppe correction at every b = 2PN -5 order
 
-
         ########################### PHASE OUTPUT ###############################
 
         phase = np.exp(1.j * self.psi)
@@ -639,13 +638,15 @@ class TaylorF2(Waveform):
         polarizations[np.where(ff[:,0] > 4 * f_isco), :] = 0.j
 
         self._frequency_domain_strain = polarizations
-
-    def print_psi(self):
+        
+######################################################################################
+    
+    def print_phase(self):
         """Prints the values of self.psi"""
         if self.psi is not None:
-            print(self.psi)
+            print(self.phase)
         else:
-            print("Psi has not been calculated yet. Run calculate_frequency_domain_strain() first.")
+            print("Phase has not been calculated yet. Run calculate_frequency_domain_strain() first.")
         
 #####################################################################################
         
