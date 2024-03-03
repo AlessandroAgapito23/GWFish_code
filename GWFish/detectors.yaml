@@ -77,7 +77,7 @@ LLO_O1:
             duty_factor:      0.85
             detector_class:   earthL
             plotrange:        10, 1000, 1e-25, 1e-20
-            fmin:             8
+            fmin:             20
             fmax:             1024
             spacing:          geometric 
             df:               1./4.    
@@ -105,7 +105,7 @@ LHO_O1:
             duty_factor:      0.85
             detector_class:   earthL
             plotrange:        10, 1000, 1e-25, 1e-20
-            fmin:             8
+            fmin:             20
             fmax:             1024
             spacing:          geometric 
             df:               1./4.    
