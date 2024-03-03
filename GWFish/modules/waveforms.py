@@ -3,6 +3,7 @@
 import os
 import logging
 import requests 
+from io import StringIO
 import matplotlib.pyplot as plt
 import numpy as np
 import sympy as sp
@@ -1323,7 +1324,8 @@ class IMRPhenomD_PPE(Waveform):
         url = 'https://github.com/AlessandroAgapito23/GWFish_code.git/GWFish/IMRPhenomD_n1l2m2.dat' 
         response = requests.get(url)
         data_str = response.text
-        data_ff = np.loadtxt(data_str, unpack = True)
+        data_file = StringIO(data_str)
+        data_ff = np.loadtxt(data_file, unpack = True)
         
         M_omega = interp1d(data_ff[0, :], data_ff[1, :])
         tau_omega = interp1d(data_ff[0, :], data_ff[2, :])
