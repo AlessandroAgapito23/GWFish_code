@@ -1318,8 +1318,12 @@ class IMRPhenomD_PPE(Waveform):
         
         # Interpolate from dataset to evaluate damping and ringdown frequencies
         chi_f, m_f = final_bh(M1, M2, chi_1, chi_2)
-    
-        data_ff = np.loadtxt('https://github.com/AlessandroAgapito23/GWFish_code.git/GWFish/IMRPhenomD_n1l2m2.dat', unpack = True)
+
+        url = 'https://github.com/AlessandroAgapito23/GWFish_code.git/GWFish/IMRPhenomD_n1l2m2.dat' 
+        response = requests.get(url)
+        data_str = response.text
+        data_ff = np.loadtxt(data_str, unpack = True)
+        
         M_omega = interp1d(data_ff[0, :], data_ff[1, :])
         tau_omega = interp1d(data_ff[0, :], data_ff[2, :])
     
