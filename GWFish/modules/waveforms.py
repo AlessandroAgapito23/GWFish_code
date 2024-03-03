@@ -748,6 +748,140 @@ def phenomD_amp_MR(f, parameters, f_damp, f_RD, gamma1, gamma2, gamma3):
 
 
 ################################################################################
+################################ TAYLORF2_PPE ######################################
+################################################################################
+
+class TaylorF2_PPE(Waveform):
+
+    """ GWFish implementation of TaylorF2_PPE """
+    def __init__(self, name, gw_params, data_params):
+        super().__init__(name, gw_params, data_params)
+        self._maxn = None
+        self.psi = None
+        if self.name != 'TaylorF2':
+            logging.warning('Different waveform name passed to TaylorF2: '+ self.name)
+
+    @property
+    def maxn(self):
+        if self._maxn is None:
+            if 'maxn' in self.data_params:
+                self._maxn = self.data_params['maxn']
+            else:
+                self._maxn = 8
+            if type(self._maxn) is not int:
+                return ValueError('maxn must be integer')
+        return self._maxn
+
+
+     def calculate_frequency_domain_strain(self): 
+      #output as 'polarizations = np.hstack((hp * phase, hc * 1.j * phase))'
+
+
+        ########################################################################
+        ############################# PARAMETERS ###############################
+        ########################################################################
+
+        frequencyvector = self.frequencyvector[:,np.newaxis]
+        phic = self.gw_params['phase']
+        tc = self.gw_params['geocent_time']
+        z = self.gw_params['redshift']
+        r = self.gw_params['luminosity_distance'] * cst.Mpc
+        iota = self.gw_params['theta_jn']
+        M1 = self.gw_params['mass_1'] * (1 + z) * cst.Msol
+        M2 = self.gw_params['mass_2'] * (1 + z) * cst.Msol
+       
+
+        if (M1 < M2):  #swapping M1 with M2 ---> We want M1>M2 
+            aux_mass = M1
+            M1 = M2
+            M2 = aux_mass
+    
+        chi_1 = self.gw_params.get('a_1', 0.0)
+        chi_2 = self.gw_params.get('a_2', 0.0)
+        
+        M = M1 + M2
+        mu = M1 * M2 / M
+        Mc = cst.G * mu ** 0.6 * M ** 0.4 / cst.c ** 3 #chirp Mass in s
+        delta_mass = (M1 - M2)/M #always >0
+        
+        ff = frequencyvector*cst.G*M/cst.c**3 #adimensional frequency
+        ones = np.ones((len(ff), 1)) 
+    
+        C = 0.57721566  # Euler constant
+        eta = mu / M #
+        eta2 = eta*eta
+        eta3 = eta2*eta
+    
+        chi_eff = (M1*chi_1 + M2*chi_2)/M
+        chi_PN = chi_eff - 38/113*eta*(chi_1 + chi_2)
+        chi_s = 0.5*(chi_1 + chi_2)
+        chi_a = 0.5*(chi_1 - chi_2)
+
+
+        #PPE parameters
+
+        PN = self.gw_params['PN']
+        beta = self.gw_params['beta']
+    
+    
+        ########################################################################  
+        ############################### PHASE ##################################
+        ########################################################################
+        ######################### PN expansion of phase ########################
+
+        # We have to add delta_phi_ppe as in gIMRPhenomD
+        # phi ---> phi*(1+delta_phi_ppe)
+        # phi is a combination of phi_i, i=0,....,7 and i=2PN
+        # We want to modify phi for each b one by one and b = i-5 
+
+        ########################################################################
+        # PN coefficients (up to 3.5 PN order) INSPIRAL phase coefficients>>>>>>
+        ########################################################################
+
+        phi_0 = 1.
+        phi_1 = 0.
+        phi_2 = 3715./756. + 55./9.*eta
+        phi_3 = -16.*np.pi + 113./3.*delta_mass*chi_a + (113./3. - 76./3.*eta)*chi_s
+        phi_4 = 15293365./508032. + 27145./504.*eta + 3085./72.*eta2 + (-(405./8.) + 200*eta)*chi_a**2 - \
+                405./4.*delta_mass*chi_a*chi_s + (-(405./8.) + 5./2.*eta)*chi_s**2
+        phi_5 = (1 + np.log(np.pi*ff))*(38645./756.*np.pi - 65./9.*np.pi*eta + \
+                delta_mass*(-(732985./2268.) - 140./9.*eta)*chi_a + (-(732985./2268.) + 24260./81.*eta + 340./9.*eta2)*chi_s)
+        phi_6 = 11583231236531./4694215680. - 6848./21.*C - (640.*np.pi**2)/3. + (-15737765635./3048192. + 2255.*np.pi**2/12.)*eta +\
+                76055.*eta2/1728. - 127825.*eta3/1296. - 6848./63.*np.log(64*np.pi*ff) + 2270./3.*np.pi*delta_mass*chi_a +\
+                (2270.*np.pi/3. - 520.*np.pi*eta)*chi_s
+        phi_7 = (77096675./254016. + 378515./1512.*eta - 74045./756.*eta2)*np.pi +\
+                delta_mass*(-(25150083775./3048192.) + 26804935./6048.*eta - 1985./48.*eta2)*chi_a +\
+                (-(25150083775./3048192.) + 10566655595./762048.*eta - 1042165./3024.*eta2 + 5345./36.*eta3)*chi_s
+       
+
+        #EARLY INSPIRAL PART OF THE PHASE phi_EI(f)
+        psi_TF2 = 2.*np.pi*ff*cst.c**3/(cst.G*M)*tc - phic*ones - np.pi/4.*ones + 3./(128.*eta)*((np.pi*ff)**(-5./3.) +\
+                phi_2*(np.pi*ff)**(-1.) +\
+                phi_3*(np.pi*ff)**(-2./3.) +\
+                phi_4*(np.pi*ff)**(-1./3.) +\
+                phi_5 +\
+                phi_6*(np.pi*ff)**(1./3.) +\
+                phi_7*(np.pi*ff)**(2./3.)) +\
+                beta*((np.pi*frequencyvector*Mc)**((2*PN-5)/3))  #ppe correction at every b order
+
+        ########################### PHASE OUTPUT ###############################
+
+        phase = np.exp(1.j * self.psi_TF2)
+
+        ########################### OUTPUT #####################################
+        
+        polarizations = np.hstack((hp * phase, hc * 1.j * phase))
+
+        # Very crude high-f cut-off:
+        polarizations[np.where(ff[:,0] > 4 * f_isco), :] = 0.j
+
+        self._frequency_domain_strain = polarizations
+        
+######################################################################################
+
+
+
+################################################################################
 ############################### IMRPhenomD #####################################
 ################################################################################
 
@@ -1215,7 +1349,7 @@ class IMRPhenomD_PPE(Waveform):
                 beta*((np.pi*frequencyvector*Mc)**((2*PN-5)/3))  #ppe correction at every b order
         
         #LATE INSPIRAL Phase Coefficients >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        #(sigma0=sigma1=0 due tu phase translation)
+        #(sigma0=sigma1=0 due to phase translation)
 
         sigma2 = -10114.056472621156 - 44631.01109458185*eta\
                 + (chi_PN - 1)*(-6541.308761668722 - 266959.23419307504*eta + 686328.3229317984*eta2)\
