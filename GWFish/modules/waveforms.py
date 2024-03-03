@@ -2,6 +2,7 @@
 
 import os
 import logging
+import request 
 import matplotlib.pyplot as plt
 import numpy as np
 import sympy as sp
