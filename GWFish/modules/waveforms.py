@@ -758,8 +758,8 @@ class TaylorF2_PPE(Waveform):
         super().__init__(name, gw_params, data_params)
         self._maxn = None
         self.psi = None
-        if self.name != 'TaylorF2':
-            logging.warning('Different waveform name passed to TaylorF2: '+ self.name)
+        if self.name != 'TaylorF2_PPE':
+            logging.warning('Different waveform name passed to TaylorF2_PPE: '+ self.name)
 
     @property
     def maxn(self):
