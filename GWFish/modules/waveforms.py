@@ -30,7 +30,7 @@ import GWFish.modules.fft as fft
 ########################### FUNCTION DEFINITIONS ###############################
 ################################################################################
 
-WAVEFORM_MODEL = 'IMRPhenomD_PPE'
+WAVEFORM_MODEL = 'TaylorF2_PPE'
 
 def convert_args_list_to_float(*args_list):
     """
