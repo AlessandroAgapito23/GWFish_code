@@ -866,7 +866,7 @@ class TaylorF2_PPE(Waveform):
 
         ########################### PHASE OUTPUT ###############################
 
-        phase = np.exp(1.j * self.psi_TF2)
+        phase = np.exp(1.j * psi_TF2)
 
         ########################### OUTPUT #####################################
         
