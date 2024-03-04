@@ -833,8 +833,8 @@ class TaylorF2_PPE(Waveform):
         ########################################################################
         
         # compute GW AMPLITUDES (https://arxiv.org/pdf/2012.01350.pdf)
-        hp = np.sqrt(eta)*cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * frequencyvector) ** (7. / 6.) * (1. + np.cos(iota) ** 2.)
-        hc = np.sqrt(eta)*cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * frequencyvector) ** (7. / 6.) * 2. * np.cos(iota)
+        hp = cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * frequencyvector) ** (7. / 6.) * (1. + np.cos(iota) ** 2.)
+        hc = cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * frequencyvector) ** (7. / 6.) * 2. * np.cos(iota)
 
 
         ########################################################################  
