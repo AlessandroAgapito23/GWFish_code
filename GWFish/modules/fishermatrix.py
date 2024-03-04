@@ -301,11 +301,11 @@ def compute_detector_fisher(
     return FisherMatrix(waveform_model, signal_parameter_values, fisher_parameters, detector, waveform_class=waveform_class).fm, detector_SNR_square
 
 def compute_network_errors(
+    waveform_model,
     network: det.Network,
     parameter_values: pd.DataFrame,
     fisher_parameters: Optional[list[str]] = None,
     waveform_class = wf.Waveform,
-    waveform_model,
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
     save_matrices: bool = False,
