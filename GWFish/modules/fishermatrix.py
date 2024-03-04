@@ -231,11 +231,11 @@ def sky_localization_percentile_factor(
     return - 2 * np.log(1 - percentile / 100.) * (180 / np.pi)**2
         
 def compute_detector_fisher(
+    waveform_model,
     detector: det.Detector,
     signal_parameter_values: Union[pd.DataFrame, dict[str, float]],
     fisher_parameters: Optional[list[str]] = None,
     waveform_class = wf.Waveform,
-    waveform_model,
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
 ) -> tuple[np.ndarray, float]:
