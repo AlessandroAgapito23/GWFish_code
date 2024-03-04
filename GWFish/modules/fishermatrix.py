@@ -232,10 +232,10 @@ def sky_localization_percentile_factor(
         
 def compute_detector_fisher(
     waveform_model,
+    waveform_class: Type[wf.Waveform],
     detector: det.Detector,
     signal_parameter_values: Union[pd.DataFrame, dict[str, float]],
     fisher_parameters: Optional[list[str]] = None,
-    waveform_class: Type[wf.Waveform],
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
 ) -> tuple[np.ndarray, float]:
@@ -302,10 +302,10 @@ def compute_detector_fisher(
 
 def compute_network_errors(
     waveform_model,
+    waveform_class: Type[wf.Waveform],
     network: det.Network,
     parameter_values: pd.DataFrame,
     fisher_parameters: Optional[list[str]] = None,
-    waveform_class: Type[wf.Waveform],
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
     save_matrices: bool = False,
