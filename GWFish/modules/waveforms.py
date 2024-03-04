@@ -773,7 +773,7 @@ class TaylorF2_PPE(Waveform):
         return self._maxn
 
 
-     def calculate_frequency_domain_strain(self): 
+    def calculate_frequency_domain_strain(self): 
       #output as 'polarizations = np.hstack((hp * phase, hc * 1.j * phase))'
 
 
