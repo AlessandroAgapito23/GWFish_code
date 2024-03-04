@@ -7,7 +7,7 @@ import GWFish.modules.fft as fft
 
 import copy
 import pandas as pd
-from typing import Optional, Union
+from typing import Optional, Union, Type
 
 from tqdm import tqdm
 
