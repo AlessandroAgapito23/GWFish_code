@@ -781,6 +781,9 @@ class TaylorF2_PPE(Waveform):
         ############################# PARAMETERS ###############################
         ########################################################################
 
+
+        f_isco = aux.fisco(self.gw_params)  #inner stable circular orbit 
+        
         frequencyvector = self.frequencyvector[:,np.newaxis]
         phic = self.gw_params['phase']
         tc = self.gw_params['geocent_time']
@@ -823,7 +826,17 @@ class TaylorF2_PPE(Waveform):
         PN = self.gw_params['PN']
         beta = self.gw_params['beta']
     
-    
+
+
+        ########################################################################
+        ############################# AMPLITUDE ################################
+        ########################################################################
+        
+        # compute GW AMPLITUDES (https://arxiv.org/pdf/2012.01350.pdf)
+        hp = cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * frequencyvector) ** (7. / 6.) * (1. + np.cos(iota) ** 2.)
+        hc = cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * frequencyvector) ** (7. / 6.) * 2. * np.cos(iota)
+
+
         ########################################################################  
         ############################### PHASE ##################################
         ########################################################################
