@@ -833,8 +833,8 @@ class TaylorF2_PPE(Waveform):
         ########################################################################
         
         # compute GW AMPLITUDES (https://arxiv.org/pdf/2012.01350.pdf)
-        hp = np.sqrt(eta)*cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * (ff/(cst.G*M/cst.c**3))) ** (7. / 6.) * (1. + np.cos(iota) ** 2.)
-        hc = np.sqrt(eta)*cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * (ff/(cst.G*M/cst.c**3))) ** (7. / 6.) * 2. * np.cos(iota)
+        hp = np.sqrt(eta)*cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * frequencyvector) ** (7. / 6.) * (1. + np.cos(iota) ** 2.)
+        hc = np.sqrt(eta)*cst.c / (2. * r) * np.sqrt(5. * np.pi / 24.) * Mc ** (5. / 6.) / (np.pi * frequencyvector) ** (7. / 6.) * 2. * np.cos(iota)
 
 
         ########################################################################  
@@ -886,7 +886,7 @@ class TaylorF2_PPE(Waveform):
         polarizations = np.hstack((hp * phase, hc * 1.j * phase))
 
         # Very crude high-f cut-off:
-        polarizations[np.where(ff[:,0] > 4 * f_isco), :] = 0.j
+        polarizations[np.where(frequencyvector[:,0] > 4 * f_isco), :] = 0.j
 
         self._frequency_domain_strain = polarizations
         
