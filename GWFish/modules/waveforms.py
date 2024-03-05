@@ -1543,7 +1543,7 @@ class IMRPhenomD_PPE(Waveform):
             (31./12.*np.pi - 7./3.*np.pi*eta)*chi_s + (1614569./64512. - 61391./1344.*eta + 57451./4032.*eta2)*chi_s**2. +\
             delta_mass*chi_a*(31./12.*np.pi + (1614569./32256. - 165961./2688.*eta)*chi_s)
         
-        a_pn = a_2*(np.pi*ff)**(2./3.) + a_3*(np.pi*ff) + a_4*(np.pi*ff)**(4./3.) + a_5*(np.pi*ff)**(5./3.) + a_6*(np.pi*ff)**2.
+        a_pn_ei = a_2*(np.pi*ff)**(2./3.) + a_3*(np.pi*ff) + a_4*(np.pi*ff)**(4./3.) + a_5*(np.pi*ff)**(5./3.) + a_6*(np.pi*ff)**2.
 
         amp_PN = a_0
 
@@ -1561,8 +1561,9 @@ class IMRPhenomD_PPE(Waveform):
                 + (chi_PN - 1)*(-210916.2454782992 + 8.71797508352568e6*eta - 2.6914942420669552e7*eta2)\
                 + (chi_PN - 1)**2*(-1.9889806527362722e6 + 3.0888029960154563e7*eta - 8.390870279256162e7*eta2)\
                 + (chi_PN - 1)**3*(-1.4535031953446497e6 + 1.7063528990822166e7*eta - 4.2748659731120914e7*eta2)
-    
-        amp_ins = amp_PN + (rho1*(ff)**(7./3.) + rho2*(ff)**(8./3.) + rho3*(ff)**3.)
+        
+        amp_pn_li = rho1*(ff)**(7./3.) + rho2*(ff)**(8./3.) + rho3*(ff)**3.
+        amp_ins = amp_PN 
     
         # Merger-ringdown coefficients
         gamma1 = 0.006927402739328343 + 0.03020474290328911*eta\
