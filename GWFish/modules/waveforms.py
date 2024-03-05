@@ -1566,6 +1566,19 @@ class IMRPhenomD_PPE(Waveform):
         amp_pn_li = rho1*(ff)**(7./3.) + rho2*(ff)**(8./3.) + rho3*(ff)**3.
         amp_ins = amp_PN #without PN corrections
 
+        # Conjunction frequencies
+        f1_amp = 0.014
+
+        amp_ins_pn_f1 = a_2*(np.pi*f1_amp)**(2./3.) + a_3*(np.pi*f1_amp) + a_4*(np.pi*f1_amp)**(4./3.) +\
+                a_5*(np.pi*f1_amp)**(5./3.) + a_6*(np.pi*f1_amp)**2. + rho1*f1_amp**(7./3.) +\
+                rho2*f1_amp**(8./3.) + rho3*f1_amp**3.
+        amp_ins_f1 = a_0
+
+        amp_ins_prime_f1_pn  = 2./3.*a_2*np.pi**(2./3.)*f1_amp**(-1./3.) + a_3*np.pi + 4./3.*a_4*np.pi**(4./3.)*f1_amp**(1./3.) +\
+                            5./3.*a_5*np.pi**(5./3.)*f1_amp**(2./3.) + 2*a_6*np.pi**2.*f1_amp + 7./3.*rho1*f1_amp**(4./3.) +\
+                            8./3.*rho2*f1_amp**(5./3.) + 3.*rho3*f1_amp**2.
+        amp_ins_prime_f1 = 0.
+        
         
         ######################################## MERGER-RINGDOWN ####################################
         # Merger-ringdown coefficients
@@ -1583,19 +1596,7 @@ class IMRPhenomD_PPE(Waveform):
                 + (chi_PN - 1)**2*(-0.05296577374411866 - 0.9923793203111362*eta + 4.820681208409587*eta2)\
                 + (chi_PN - 1)**3*(-0.006134139870393713 - 0.38429253308696365*eta + 1.7561754421985984*eta2)
     
-        # Conjunction frequencies
-        f1_amp = 0.014
-
-        amp_ins_pn_f1 = a_2*(np.pi*f1_amp)**(2./3.) + a_3*(np.pi*f1_amp) + a_4*(np.pi*f1_amp)**(4./3.) +\
-                a_5*(np.pi*f1_amp)**(5./3.) + a_6*(np.pi*f1_amp)**2. + rho1*f1_amp**(7./3.) +\
-                rho2*f1_amp**(8./3.) + rho3*f1_amp**3.
-        amp_ins_f1 = a_0
-
-        amp_ins_prime_f1_pn  = 2./3.*a_2*np.pi**(2./3.)*f1_amp**(-1./3.) + a_3*np.pi + 4./3.*a_4*np.pi**(4./3.)*f1_amp**(1./3.) +\
-                            5./3.*a_5*np.pi**(5./3.)*f1_amp**(2./3.) + 2*a_6*np.pi**2.*f1_amp + 7./3.*rho1*f1_amp**(4./3.) +\
-                            8./3.*rho2*f1_amp**(5./3.) + 3.*rho3*f1_amp**2.
-        amp_ins_prime_f1 = 0.
-
+        
         
         # Conjunction frequencies
         f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
