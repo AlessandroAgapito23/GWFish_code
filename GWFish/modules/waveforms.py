@@ -909,14 +909,14 @@ class TaylorF2_PPE(Waveform):
         plt.savefig(output_folder + 'amp_tot_TF2_PPE.png')
         plt.close()
 
-        plt.figure()
-        plt.semilogx(self.ff, self.psi)
+        """plt.figure()
+        plt.semilogx(self.frequencyvector, self.psi)
         plt.xlabel('Frequency [Hz]')
         plt.ylabel('Phase [rad]')
         plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
         plt.tight_layout()
         plt.savefig(output_folder + 'phase_tot_TF2_PPE.png')
-        plt.close()
+        plt.close()"""
 
 
 ################################################################################
