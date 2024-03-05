@@ -1146,7 +1146,8 @@ class IMRPhenomD(Waveform):
             (31./12.*np.pi - 7./3.*np.pi*eta)*chi_s + (1614569./64512. - 61391./1344.*eta + 57451./4032.*eta2)*chi_s**2. +\
             delta_mass*chi_a*(31./12.*np.pi + (1614569./32256. - 165961./2688.*eta)*chi_s)
         
-        amp_PN = (a_0 + a_2*(np.pi*ff)**(2./3.) + a_3*(np.pi*ff) + a_4*(np.pi*ff)**(4./3.) +\
+        amp_PN = (a_0 + \
+                a_2*(np.pi*ff)**(2./3.) + a_3*(np.pi*ff) + a_4*(np.pi*ff)**(4./3.) +\
                 a_5*(np.pi*ff)**(5./3.) + a_6*(np.pi*ff)**2.)
     
         # Late inspiral coefficients
@@ -1542,8 +1543,11 @@ class IMRPhenomD_PPE(Waveform):
             (31./12.*np.pi - 7./3.*np.pi*eta)*chi_s + (1614569./64512. - 61391./1344.*eta + 57451./4032.*eta2)*chi_s**2. +\
             delta_mass*chi_a*(31./12.*np.pi + (1614569./32256. - 165961./2688.*eta)*chi_s)
         
-        amp_PN = (a_0 + a_2*(np.pi*ff)**(2./3.) + a_3*(np.pi*ff) + a_4*(np.pi*ff)**(4./3.) +\
-                a_5*(np.pi*ff)**(5./3.) + a_6*(np.pi*ff)**2.)
+        amp_PN = (
+                a_0 +\
+                #a_2*(np.pi*ff)**(2./3.) + a_3*(np.pi*ff) + a_4*(np.pi*ff)**(4./3.) +\
+                #a_5*(np.pi*ff)**(5./3.) + a_6*(np.pi*ff)**2.
+        )
     
         # Late inspiral coefficients
         rho1 = 3931.8979897196696 - 17395.758706812805*eta\
