@@ -1708,8 +1708,8 @@ class IMRPhenomD_PPE(Waveform):
         
         plt.figure()
         #y_height = plot[3]/10
-        plt.loglog(frequencyvector, np.abs(polarizations[:, 0]), linewidth=2, color='blue', label=r'$h_+$')
-        plt.loglog(frequencyvector, np.abs(polarizations[:, 1]), linewidth=2, color='blue', label=r'$h_\times$')
+        plt.loglog(self.frequencyvector, np.abs(polarizations[:, 0]), linewidth=2, color='blue', label=r'$h_+$')
+        plt.loglog(self.frequencyvector, np.abs(polarizations[:, 1]), linewidth=2, color='blue', label=r'$h_\times$')
         plt.axvline(x=f1_amp*cst.c**3/(M*cst.G), color = 'orange', linestyle = '--', linewidth = 2)
         plt.axvline(x=f2_amp*cst.c**3/(M*cst.G), color = 'orange', linestyle = '--', linewidth = 2)
         plt.axvline(x=f3_amp*cst.c**3/(M*cst.G), color = 'orange', linestyle = '--', linewidth = 2)
@@ -1728,7 +1728,7 @@ class IMRPhenomD_PPE(Waveform):
 
         ############################# phi_prime vs freq ############################
         plt.figure()
-        plt.semilogx(frequencyvector, psi_prime_tot, linewidth = 2, color = 'blue', label='PhenomD')
+        plt.semilogx(self.frequencyvector, psi_prime_tot, linewidth = 2, color = 'blue', label='PhenomD')
         y_loc = (1 + 1e-9)*psi_prime_tot[0,0]
         plt.axvline(x=0.018*cst.c**3/(cst.G*M), color = 'orange', linestyle = '--', linewidth = 2)
         plt.axvline(x=ff_RD*cst.c**3/(cst.G*M), color = 'orange', linestyle = '--', linewidth = 2)
@@ -1744,10 +1744,10 @@ class IMRPhenomD_PPE(Waveform):
       
         ############################### phi vs freq ############################
         plt.figure()
-        freq_lim_vec = frequencyvector[frequencyvector > 0.018*cst.c**3/(cst.G*M)]
+        freq_lim_vec = self.frequencyvector[self.frequencyvector > 0.018*cst.c**3/(cst.G*M)]
         psi_lim_vec = psi_tot[len(psi_tot)-len(freq_lim_vec):, 0]
         fig, ax = plt.subplots(figsize=[8, 5])
-        ax.loglog(frequencyvector, psi_tot, linewidth = 2, color = 'blue', label = 'PhenomD')
+        ax.loglog(self.frequencyvector, psi_tot, linewidth = 2, color = 'blue', label = 'PhenomD')
         axins = ax.inset_axes([0.5, +0.1, 0.47, 0.47])
         axins.plot(freq_lim_vec, psi_lim_vec, color='blue', linewidth=2)
         axins.set_xscale('log')
