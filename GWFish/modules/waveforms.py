@@ -877,7 +877,7 @@ class TaylorF2_PPE(Waveform):
                 phi_5 +\
                 phi_6*(np.pi*ff)**(1./3.) +\
                 phi_7*(np.pi*ff)**(2./3.)) +\
-                beta*((np.pi*frequencyvector*Mc)**((2*PN-5)/3))  #ppe correction at every b order
+                beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.))  #ppe correction at every b order
 
         ########################### PHASE OUTPUT ###############################
 
@@ -1388,7 +1388,7 @@ class IMRPhenomD_PPE(Waveform):
                 phi_5 +\
                 phi_6*(np.pi*ff)**(1./3.) +\
                 phi_7*(np.pi*ff)**(2./3.)) +\
-                beta*((np.pi*frequencyvector*Mc)**((2*PN-5)/3))  #ppe correction at every b order
+                beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.))  #ppe correction at every b order
         
         #LATE INSPIRAL Phase Coefficients >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         #(sigma0=sigma1=0 due to phase translation)
