@@ -1586,7 +1586,7 @@ class IMRPhenomD_PPE(Waveform):
         # Conjunction frequencies
         f1_amp = 0.014
 
-         amp_ins_pn_f1 = a_2*(np.pi*f1_amp)**(2./3.) + a_3*(np.pi*f1_amp) + a_4*(np.pi*f1_amp)**(4./3.) +\
+        amp_ins_pn_f1 = a_2*(np.pi*f1_amp)**(2./3.) + a_3*(np.pi*f1_amp) + a_4*(np.pi*f1_amp)**(4./3.) +\
                 a_5*(np.pi*f1_amp)**(5./3.) + a_6*(np.pi*f1_amp)**2. + rho1*f1_amp**(7./3.) +\
                 rho2*f1_amp**(8./3.) + rho3*f1_amp**3.
         amp_ins_f1 = a_0
