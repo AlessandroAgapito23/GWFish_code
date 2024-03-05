@@ -684,6 +684,9 @@ class TaylorF2(Waveform):
         plt.tight_layout()
         plt.savefig(output_folder + 'phase_tot_TF2.png')
         plt.close()
+        
+##############################################################################################
+
 
 def step_function(f1, f2):
     vec = []
@@ -889,8 +892,34 @@ class TaylorF2_PPE(Waveform):
 
         self._frequency_domain_strain = polarizations
         
-######################################################################################
+################################################################################
 
+def plot (self, output_folder='./'):
+        plt.figure()
+        plt.loglog(self.frequencyvector, \
+                   np.abs(self.frequency_domain_strain[:, 0]), label=r'$h_+$')
+        plt.loglog(self.frequencyvector, \
+                   np.abs(self.frequency_domain_strain[:, 1]), label=r'$h_\times$')
+        plt.xlabel('Frequency [Hz]')
+        plt.ylabel(r'Fourier amplitude [$Hz^{-1}$]')
+        plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
+        #plt.axis(axis)
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig(output_folder + 'amp_tot_TF2_PPE.png')
+        plt.close()
+
+        plt.figure()
+        plt.semilogx(self.frequencyvector, self.psi)
+        plt.xlabel('Frequency [Hz]')
+        plt.ylabel('Phase [rad]')
+        plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
+        plt.tight_layout()
+        plt.savefig(output_folder + 'phase_tot_TF2_PPE.png')
+        plt.close()
+
+
+################################################################################
 
 
 ################################################################################
