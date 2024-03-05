@@ -1705,6 +1705,7 @@ class IMRPhenomD_PPE(Waveform):
     def plot(self, output_folder='./'):
 
     ############################# phi_prime vs freq ############################
+        """
         plt.figure()
         plt.semilogx(self.frequencyvector, psi_prime_tot, linewidth=2, color='blue', label='PhenomD')
         y_loc = (1 + 1e-9) * psi_prime_tot[0, 0]
@@ -1718,7 +1719,7 @@ class IMRPhenomD_PPE(Waveform):
         plt.ylabel('$\phi$_prime')
         plt.savefig(output_folder + 'psi_prime_phenomD.png')
         plt.close()
-       
+        """
       
     ############################### phi vs freq ############################
         plt.figure()
