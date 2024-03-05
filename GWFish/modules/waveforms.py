@@ -821,12 +821,11 @@ class TaylorF2_PPE(Waveform):
         chi_a = 0.5*(chi_1 - chi_2)
 
 
-        #PPE parameters
+        #PPE phase parameters
 
         PN = self.gw_params['PN']
         beta = self.gw_params['beta']
     
-
 
         ########################################################################
         ############################# AMPLITUDE ################################
@@ -1316,7 +1315,7 @@ class IMRPhenomD_PPE(Waveform):
         chi_a = 0.5*(chi_1 - chi_2)
 
 
-        #PPE parameters
+        #PPE phase parameters
 
         PN = self.gw_params['PN']
         beta = self.gw_params['beta']
@@ -1445,7 +1444,7 @@ class IMRPhenomD_PPE(Waveform):
         psi_int_prime = 1./eta*(beta1 + beta2*ff**(-1.) + beta3*ff**(-4.))
         
         ########################################################################
-        # PN coefficients for the MERGER RINGDOWN PHASE>>>>>>>>>>>>>>>>>>>>>>>>>
+        # PN coefficients for the MERGER-RINGDOWN PHASE>>>>>>>>>>>>>>>>>>>>>>>>>
         ########################################################################
         #alpha0 and alpha1 are fixed by the continuity conditions
 
@@ -1528,7 +1527,9 @@ class IMRPhenomD_PPE(Waveform):
         ############################# AMPLITUDE ################################
         ########################################################################
         # We don't have to add amplitude modification in ppe formalism
-    
+
+        
+        ############################### INSPIRAL ###############################
         # PN coefficients:
         a_0 = 1.
         a_1 = 0.
@@ -1545,7 +1546,7 @@ class IMRPhenomD_PPE(Waveform):
         
         a_pn_ei = a_2*(np.pi*ff)**(2./3.) + a_3*(np.pi*ff) + a_4*(np.pi*ff)**(4./3.) + a_5*(np.pi*ff)**(5./3.) + a_6*(np.pi*ff)**2.
 
-        amp_PN = a_0
+        amp_PN = a_0 #without PN corrections
 
     
         # Late inspiral coefficients
@@ -1563,9 +1564,12 @@ class IMRPhenomD_PPE(Waveform):
                 + (chi_PN - 1)**3*(-1.4535031953446497e6 + 1.7063528990822166e7*eta - 4.2748659731120914e7*eta2)
         
         amp_pn_li = rho1*(ff)**(7./3.) + rho2*(ff)**(8./3.) + rho3*(ff)**3.
-        amp_ins = amp_PN 
-    
+        amp_ins = amp_PN #without PN corrections
+
+        
+        ######################################## MERGER-RINGDOWN ####################################
         # Merger-ringdown coefficients
+        
         gamma1 = 0.006927402739328343 + 0.03020474290328911*eta\
                 + (chi_PN - 1)*(0.006308024337706171 - 0.12074130661131138*eta + 0.26271598905781324*eta2)\
                 + (chi_PN - 1)**2*(0.0034151773647198794 - 0.10779338611188374*eta + 0.27098966966891747*eta2)\
@@ -1579,31 +1583,34 @@ class IMRPhenomD_PPE(Waveform):
                 + (chi_PN - 1)**2*(-0.05296577374411866 - 0.9923793203111362*eta + 4.820681208409587*eta2)\
                 + (chi_PN - 1)**3*(-0.006134139870393713 - 0.38429253308696365*eta + 1.7561754421985984*eta2)
     
+        # Conjunction frequencies
+        f1_amp = 0.014
+
+         amp_ins_pn_f1 = a_2*(np.pi*f1_amp)**(2./3.) + a_3*(np.pi*f1_amp) + a_4*(np.pi*f1_amp)**(4./3.) +\
+                a_5*(np.pi*f1_amp)**(5./3.) + a_6*(np.pi*f1_amp)**2. + rho1*f1_amp**(7./3.) +\
+                rho2*f1_amp**(8./3.) + rho3*f1_amp**3.
+        amp_ins_f1 = a_0
+
+        amp_ins_prime_f1_pn  = 2./3.*a_2*np.pi**(2./3.)*f1_amp**(-1./3.) + a_3*np.pi + 4./3.*a_4*np.pi**(4./3.)*f1_amp**(1./3.) +\
+                            5./3.*a_5*np.pi**(5./3.)*f1_amp**(2./3.) + 2*a_6*np.pi**2.*f1_amp + 7./3.*rho1*f1_amp**(4./3.) +\
+                            8./3.*rho2*f1_amp**(5./3.) + 3.*rho3*f1_amp**2.
+        amp_ins_prime_f1 = 0.
+
+        
+        # Conjunction frequencies
+        f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
+        f2_amp = (f1_amp + f3_amp)/2.
+    
+        
         # Intermediate phase 
         v2 = 0.8149838730507785 + 2.5747553517454658*eta\
                 + (chi_PN - 1)*(1.1610198035496786 - 2.3627771785551537*eta + 6.771038707057573*eta2)\
                 + (chi_PN - 1)**2*(0.7570782938606834 - 2.7256896890432474*eta + 7.1140380397149965*eta2)\
                 + (chi_PN - 1)**3*(0.1766934149293479 - 0.7978690983168183*eta + 2.1162391502005153*eta2)
-    
-        # Conjunction frequencies
-        f1_amp = 0.014
-        f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
-        f2_amp = (f1_amp + f3_amp)/2.
-    
-    
+        
         amp_MR = gamma1*(gamma3*ff_damp*ones)/((ff - ff_RD*ones)**2. +\
                 (gamma3*ff_damp*ones)**2)*np.exp(-gamma2*(ff - ff_RD*ones)/(gamma3*ff_damp*ones))
 
-        amp_ins_pn_f1 = a_2*(np.pi*f1_amp)**(2./3.) + a_3*(np.pi*f1_amp) + a_4*(np.pi*f1_amp)**(4./3.) +\
-                a_5*(np.pi*f1_amp)**(5./3.) + a_6*(np.pi*f1_amp)**2. + rho1*f1_amp**(7./3.) +\
-                rho2*f1_amp**(8./3.) + rho3*f1_amp**3.
-        amp_ins_f1 = a_0
-
-        
-        amp_ins_prime_f1_pn  = 2./3.*a_2*np.pi**(2./3.)*f1_amp**(-1./3.) + a_3*np.pi + 4./3.*a_4*np.pi**(4./3.)*f1_amp**(1./3.) +\
-                            5./3.*a_5*np.pi**(5./3.)*f1_amp**(2./3.) + 2*a_6*np.pi**2.*f1_amp + 7./3.*rho1*f1_amp**(4./3.) +\
-                            8./3.*rho2*f1_amp**(5./3.) + 3.*rho3*f1_amp**2.
-        amp_ins_prime_f1 = 0.
     
         amp_MR_f3, amp_MR_prime_f3 = phenomD_amp_MR(f3_amp, self.gw_params, ff_damp, ff_RD, gamma1, gamma2, gamma3)
         amp_MR_f3 = float(amp_MR_f3)
@@ -1618,12 +1625,12 @@ class IMRPhenomD_PPE(Waveform):
         
         b = np. array([amp_ins_f1, v2, amp_MR_f3, amp_ins_prime_f1, amp_MR_prime_f3])
         delta = np.linalg.solve(A, b)
-    
+
+        
         # Full intermediate amplitude
         amp_int = (delta[0] + delta[1]*(ff) + delta[2]*(ff)**2. + delta[3]*(ff)**3. +\
                 delta[4]*(ff)**4.)
-      
-    
+
         ff1_amp = f1_amp*ones
         ff3_amp = f3_amp*ones
     
@@ -1646,7 +1653,8 @@ class IMRPhenomD_PPE(Waveform):
     
         amp_tot = amp_ins + amp_int + amp_MR
         
-    
+        ############################### PROJECTIONS ############################
+        
         hp = amp_tot*0.5*(1 + np.cos(iota)**2.)
         hc = amp_tot*np.cos(iota)
         polarizations = np.hstack((hp * phase, hc * 1.j * phase))
