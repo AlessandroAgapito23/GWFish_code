@@ -1705,7 +1705,7 @@ class IMRPhenomD_PPE(Waveform):
     def plot(self, output_folder='./'):
       
       ######################### h_plus & h_cross vs freq #######################
-        
+      """  
         plt.figure()
         #y_height = plot[3]/10
         plt.loglog(self.frequencyvector, np.abs(polarizations[:, 0]), linewidth=2, color='blue', label=r'$h_+$')
@@ -1722,7 +1722,7 @@ class IMRPhenomD_PPE(Waveform):
         plt.xlabel('Frequency [Hz]')
         plt.ylabel(r'Fourier amplitude [$Hz^{-1}$]')
         plt.savefig(output_folder + 'amp_phenomD.png')
-        plt.close()
+        plt.close()"""
         
         
 
