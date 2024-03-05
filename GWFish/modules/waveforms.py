@@ -1703,65 +1703,64 @@ class IMRPhenomD_PPE(Waveform):
        #########################################################################
 
     def plot(self, output_folder='./'):
-      
-      ######################### h_plus & h_cross vs freq #######################
-      """  
-        plt.figure()
-        #y_height = plot[3]/10
-        plt.loglog(self.frequencyvector, np.abs(polarizations[:, 0]), linewidth=2, color='blue', label=r'$h_+$')
-        plt.loglog(self.frequencyvector, np.abs(polarizations[:, 1]), linewidth=2, color='blue', label=r'$h_\times$')
-        plt.axvline(x=f1_amp*cst.c**3/(M*cst.G), color = 'orange', linestyle = '--', linewidth = 2)
-        plt.axvline(x=f2_amp*cst.c**3/(M*cst.G), color = 'orange', linestyle = '--', linewidth = 2)
-        plt.axvline(x=f3_amp*cst.c**3/(M*cst.G), color = 'orange', linestyle = '--', linewidth = 2)
-        plt.text(1.05*f1_amp*cst.c**3/(M*cst.G), y_height, 'f1_match', rotation=90, fontsize=10, color = 'orange')
-        plt.text(1.05*f3_amp*cst.c**3/(M*cst.G), y_height, 'f3_match', rotation=90, fontsize=10, color = 'orange')
-        plt.text(1.05*f2_amp*cst.c**3/(M*cst.G), y_height, 'f2_match', rotation=90, fontsize=10, color = 'orange')
-        plt.legend(fontsize=8)
-        #plt.axis(plot)
-        plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
-        plt.xlabel('Frequency [Hz]')
-        plt.ylabel(r'Fourier amplitude [$Hz^{-1}$]')
-        plt.savefig(output_folder + 'amp_phenomD.png')
-        plt.close()"""
-        
-        
 
-        ############################# phi_prime vs freq ############################
+    ############################# phi_prime vs freq ############################
         plt.figure()
-        plt.semilogx(self.frequencyvector, psi_prime_tot, linewidth = 2, color = 'blue', label='PhenomD')
-        y_loc = (1 + 1e-9)*psi_prime_tot[0,0]
-        plt.axvline(x=0.018*cst.c**3/(cst.G*M), color = 'orange', linestyle = '--', linewidth = 2)
-        plt.axvline(x=ff_RD*cst.c**3/(cst.G*M), color = 'orange', linestyle = '--', linewidth = 2)
-        plt.text(1.05*0.018*cst.c**3/(cst.G*M), y_loc, '$Mf = 0.018$', rotation=90, fontsize=12, color='orange')
-        plt.text(1.05*ff_RD*cst.c**3/(cst.G*M), y_loc, '$f_{RD}$', rotation=90, fontsize=12, color='orange')
-        plt.legend(fontsize = 8)
-        plt.grid(which = 'both', color = 'lightgray', alpha = 0.5, linestyle = 'dashed', linewidth = 0.5)
+        plt.semilogx(self.frequencyvector, psi_prime_tot, linewidth=2, color='blue', label='PhenomD')
+        y_loc = (1 + 1e-9) * psi_prime_tot[0, 0]
+        plt.axvline(x=0.018 * cst.c**3 / (cst.G * M), color='orange', linestyle='--', linewidth=2)
+        plt.axvline(x=ff_RD * cst.c**3 / (cst.G * M), color='orange', linestyle='--', linewidth=2)
+        plt.text(1.05 * 0.018 * cst.c**3 / (cst.G * M), y_loc, '$Mf = 0.018$', rotation=90, fontsize=12, color='orange')
+        plt.text(1.05 * ff_RD * cst.c**3 / (cst.G * M), y_loc, '$f_{RD}$', rotation=90, fontsize=12, color='orange')
+        plt.legend(fontsize=8)
+        plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
         plt.xlabel('Frequency [Hz]')
         plt.ylabel('$\phi$_prime')
         plt.savefig(output_folder + 'psi_prime_phenomD.png')
         plt.close()
        
       
-        ############################### phi vs freq ############################
+    ############################### phi vs freq ############################
         plt.figure()
-        freq_lim_vec = self.frequencyvector[self.frequencyvector > 0.018*cst.c**3/(cst.G*M)]
+        freq_lim_vec = self.frequencyvector[self.frequencyvector > 0.018 * cst.c**3 / (cst.G * M)]
         psi_lim_vec = psi_tot[len(psi_tot)-len(freq_lim_vec):, 0]
         fig, ax = plt.subplots(figsize=[8, 5])
-        ax.loglog(self.frequencyvector, psi_tot, linewidth = 2, color = 'blue', label = 'PhenomD')
+        ax.loglog(self.frequencyvector, psi_tot, linewidth=2, color='blue', label='PhenomD')
         axins = ax.inset_axes([0.5, +0.1, 0.47, 0.47])
         axins.plot(freq_lim_vec, psi_lim_vec, color='blue', linewidth=2)
         axins.set_xscale('log')
         axins.set_yscale('log')
         axins.set_xticklabels('')
         axins.set_yticklabels('')
-        axins.grid(which = 'both', color = 'lightgray', alpha = 0.5, linestyle = 'dashed', linewidth = 0.5)
+        axins.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
         ax.indicate_inset_zoom(axins, edgecolor="black")
-        plt.legend(fontsize = 8)
-        plt.grid(which = 'both', color = 'lightgray', alpha = 0.5, linestyle = 'dashed', linewidth = 0.5)
+        plt.legend(fontsize=8)
+        plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
         plt.xlabel('Frequency [Hz]')
         plt.ylabel('$\phi$')
         plt.savefig(output_folder + 'psi_phenomD_zoomed.png')
         plt.close()
+
+######################### h_plus & h_cross vs freq #######################
+    """  
+    plt.figure()
+    #y_height = plot[3]/10
+    plt.loglog(self.frequencyvector, np.abs(polarizations[:, 0]), linewidth=2, color='blue', label=r'$h_+$')
+    plt.loglog(self.frequencyvector, np.abs(polarizations[:, 1]), linewidth=2, color='blue', label=r'$h_\times$')
+    plt.axvline(x=f1_amp*cst.c**3/(M*cst.G), color='orange', linestyle='--', linewidth=2)
+    plt.axvline(x=f2_amp*cst.c**3/(M*cst.G), color='orange', linestyle='--', linewidth=2)
+    plt.axvline(x=f3_amp*cst.c**3/(M*cst.G), color='orange', linestyle='--', linewidth=2)
+    plt.text(1.05*f1_amp*cst.c**3/(M*cst.G), y_height, 'f1_match', rotation=90, fontsize=10, color='orange')
+    plt.text(1.05*f3_amp*cst.c**3/(M*cst.G), y_height, 'f3_match', rotation=90, fontsize=10, color='orange')
+    plt.text(1.05*f2_amp*cst.c**3/(M*cst.G), y_height, 'f2_match', rotation=90, fontsize=10, color='orange')
+    plt.legend(fontsize=8)
+    #plt.axis(plot)
+    plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel(r'Fourier amplitude [$Hz^{-1}$]')
+    plt.savefig(output_folder + 'amp_phenomD.png')
+    plt.close()"""
+        
 
        
 #GWFISH
