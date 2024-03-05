@@ -894,7 +894,7 @@ class TaylorF2_PPE(Waveform):
         
 ################################################################################
 
-def plot (self, output_folder='./'):
+    def plot (self, output_folder='./'):
         plt.figure()
         plt.loglog(self.frequencyvector, \
                    np.abs(self.frequency_domain_strain[:, 0]), label=r'$h_+$')
