@@ -910,7 +910,7 @@ class TaylorF2_PPE(Waveform):
         plt.close()
 
         plt.figure()
-        plt.semilogx(self.frequencyvector, self.psi)
+        plt.semilogx(self.ff, self.psi)
         plt.xlabel('Frequency [Hz]')
         plt.ylabel('Phase [rad]')
         plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
