@@ -810,7 +810,7 @@ class TaylorF2_PPE(Waveform):
         Mc = cst.G * mu ** 0.6 * M ** 0.4 / cst.c ** 3 #chirp Mass in s
         delta_mass = (M1 - M2)/M #always >0
         
-        ff = frequencyvector*cst.G*M/cst.c**3 #adimensional frequency
+        ff = frequencyvector*cst.G*M/cst.c**3 #adimensional frequency = f[Hz] * 4.926*10^{-6} * M[M_sol] 
         ones = np.ones((len(ff), 1)) 
     
         C = 0.57721566  # Euler constant
@@ -1042,7 +1042,7 @@ class IMRPhenomD(Waveform):
         ######################### CONTINUITY TRANSITION ########################
         # Evaluate phase and its derivate at the interface between (early) inspiral and intermediate phase
 
-        f1 = 0.018 #transition frequency
+        f1 = 0.0166 #transition frequency
 
         psi_ins_gradient = interp1d(ff[:,0], np.gradient(psi_ins[:,0]))
     
