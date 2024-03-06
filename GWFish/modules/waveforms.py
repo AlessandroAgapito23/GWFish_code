@@ -535,9 +535,9 @@ class LALTD_Waveform(LALFD_Waveform):
 
 ################################################################################
 ################################ TAYLORF2 ######################################
-################################################################################
+############################# Without spins ####################################
 
-class TaylorF2(Waveform):
+class TaylorF2(Waveform):  
 
     """ GWFish implementation of TaylorF2 """
     def __init__(self, name, gw_params, data_params):
@@ -746,8 +746,8 @@ def phenomD_amp_MR(f, parameters, f_damp, f_RD, gamma1, gamma2, gamma3):
 
 
 ################################################################################
-################################ TAYLORF2_PPE ######################################
-################################################################################
+################################ TAYLORF2_PPE ##################################
+########################## with spin corrections ###############################
 
 class TaylorF2_PPE(Waveform):
 
@@ -772,8 +772,6 @@ class TaylorF2_PPE(Waveform):
 
 
     def calculate_frequency_domain_strain(self): 
-      #output as 'polarizations = np.hstack((hp * phase, hc * 1.j * phase))'
-
 
         ########################################################################
         ############################# PARAMETERS ###############################
@@ -818,7 +816,6 @@ class TaylorF2_PPE(Waveform):
         chi_s = 0.5*(chi_1 + chi_2)
         chi_a = 0.5*(chi_1 - chi_2)
 
-
         #PPE phase parameters
 
         PN = self.gw_params['PN']
@@ -852,20 +849,15 @@ class TaylorF2_PPE(Waveform):
         phi_1 = 0.
         phi_2 = 3715./756. + 55./9.*eta
         phi_3 = -16.*np.pi + 113./3.*delta_mass*chi_a + (113./3. - 76./3.*eta)*chi_s
-        phi_4 = 15293365./508032. + 27145./504.*eta + 3085./72.*eta2 + (-(405./8.) + 200*eta)*chi_a**2 - \
-                405./4.*delta_mass*chi_a*chi_s + (-(405./8.) + 5./2.*eta)*chi_s**2
-        phi_5 = (1 + np.log(np.pi*ff))*(38645./756.*np.pi - 65./9.*np.pi*eta + \
-                delta_mass*(-(732985./2268.) - 140./9.*eta)*chi_a + (-(732985./2268.) + 24260./81.*eta + 340./9.*eta2)*chi_s)
-        phi_6 = 11583231236531./4694215680. - 6848./21.*C - (640.*np.pi**2)/3. + (-15737765635./3048192. + 2255.*np.pi**2/12.)*eta +\
-                76055.*eta2/1728. - 127825.*eta3/1296. - 6848./63.*np.log(64*np.pi*ff) + 2270./3.*np.pi*delta_mass*chi_a +\
-                (2270.*np.pi/3. - 520.*np.pi*eta)*chi_s
-        phi_7 = (77096675./254016. + 378515./1512.*eta - 74045./756.*eta2)*np.pi +\
-                delta_mass*(-(25150083775./3048192.) + 26804935./6048.*eta - 1985./48.*eta2)*chi_a +\
-                (-(25150083775./3048192.) + 10566655595./762048.*eta - 1042165./3024.*eta2 + 5345./36.*eta3)*chi_s
-       
+        phi_4 = 15293365./508032. + 27145./504.*eta + 3085./72.*eta2 + (-(405./8.) + 200*eta)*chi_a**2 - 405./4.*delta_mass*chi_a*chi_s + (-(405./8.) + 5./2.*eta)*chi_s**2
+        phi_5 = (1 + np.log(np.pi*ff))*(38645./756.*np.pi - 65./9.*np.pi*eta + delta_mass*(-(732985./2268.) - 140./9.*eta)*chi_a + (-(732985./2268.) + 24260./81.*eta + 340./9.*eta2)*chi_s)
+        phi_6 = 11583231236531./4694215680. - 6848./21.*C - (640.*np.pi**2)/3. + (-15737765635./3048192. + 2255.*np.pi**2/12.)*eta + 76055.*eta2/1728. - 127825.*eta3/1296. - 6848./63.*np.log(64*np.pi*ff) + 2270./3.*np.pi*delta_mass*chi_a + (2270.*np.pi/3. - 520.*np.pi*eta)*chi_s
+        phi_7 = (77096675./254016. + 378515./1512.*eta - 74045./756.*eta2)*np.pi + delta_mass*(-(25150083775./3048192.) + 26804935./6048.*eta - 1985./48.*eta2)*chi_a + (-(25150083775./3048192.) + 10566655595./762048.*eta - 1042165./3024.*eta2 + 5345./36.*eta3)*chi_s
 
+        
         #EARLY INSPIRAL PART OF THE PHASE phi_EI(f)
-        psi_TF2 = 2.*np.pi*ff*cst.c**3/(cst.G*M)*tc - phic*ones - np.pi/4.*ones + 3./(128.*eta)*((np.pi*ff)**(-5./3.) +\
+        psi_TF2 = 2.*np.pi*ff*cst.c**3/(cst.G*M)*tc - phic*ones - np.pi/4.*ones +\
+                3./(128.*eta)*((np.pi*ff)**(-5./3.) +\
                 phi_2*(np.pi*ff)**(-1.) +\
                 phi_3*(np.pi*ff)**(-2./3.) +\
                 phi_4*(np.pi*ff)**(-1./3.) +\
@@ -904,14 +896,14 @@ class TaylorF2_PPE(Waveform):
         plt.savefig(output_folder + 'amp_tot_TF2_PPE.png')
         plt.close()
 
-        """plt.figure()
-        plt.semilogx(self.frequencyvector, self.psi)
+        plt.figure()
+        plt.semilogx(self.frequencyvector, psi_TF2)
         plt.xlabel('Frequency [Hz]')
         plt.ylabel('Phase [rad]')
         plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
         plt.tight_layout()
         plt.savefig(output_folder + 'phase_tot_TF2_PPE.png')
-        plt.close()"""
+        plt.close()
 
 
 ################################################################################
