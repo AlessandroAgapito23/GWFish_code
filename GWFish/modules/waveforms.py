@@ -1042,8 +1042,7 @@ class IMRPhenomD(Waveform):
         ######################### CONTINUITY TRANSITION ########################
         # Evaluate phase and its derivate at the interface between (early) inspiral and intermediate phase
 
-        f1 = 0.0166 #transition frequency
-        #f1 = 0.018 #transition frequency
+        f1 = 0.018 #transition frequency
 
         psi_ins_gradient = interp1d(ff[:,0], np.gradient(psi_ins[:,0]))
     
@@ -1129,8 +1128,7 @@ class IMRPhenomD(Waveform):
                         (ff - alpha5*ff_RD)**2.))
     
         # Conjunction functions
-        #ff1 = 0.018*ones
-        ff1 = 0.0166*ones
+        ff1 = 0.018*ones
         ff2 = 0.5*ff_RD*ones
     
         theta_minus1 = 0.5*(1*ones - step_function(ff,ff1))
@@ -1420,8 +1418,10 @@ class IMRPhenomD_PPE(Waveform):
 
         # Evaluate phase and its derivate at the interface between inspiral and intermediate phase
 
-        f1 = 0.018 #transition frequency M*fint
+        #f1 = 0.018 #transition frequency M*fint
+        f1 = 0.0166
 
+        
         psi_ins_gradient = interp1d(ff[:,0], np.gradient(psi_ins[:,0])) #derivative 
         
         #phi_5 and phi_6 are the only ones which depend on the frequency
@@ -1525,7 +1525,8 @@ class IMRPhenomD_PPE(Waveform):
                         (ff - alpha5*ff_RD)**2.))
     
         # Conjunction functions
-        ff1 = 0.018*ones
+        #ff1 = 0.018*ones
+        ff1 = 0.0166*ones
         ff2 = 0.5*ff_RD*ones
     
         theta_minus1 = 0.5*(1*ones - step_function(ff,ff1))
