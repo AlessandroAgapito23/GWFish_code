@@ -866,6 +866,7 @@ class TaylorF2_PPE(Waveform):
                 phi_7*(np.pi*ff)**(2./3.)) +\
                 beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.))  #ppe correction at every b order
 
+        self.psi = psi_TF2
         ########################### PHASE OUTPUT ###############################
 
         phase = np.exp(1.j * psi_TF2)
@@ -897,7 +898,7 @@ class TaylorF2_PPE(Waveform):
         plt.close()
 
         plt.figure()
-        plt.semilogx(self.frequencyvector, psi_TF2)
+        plt.semilogx(self.frequencyvector, self.psi)
         plt.xlabel('Frequency [Hz]')
         plt.ylabel('Phase [rad]')
         plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
