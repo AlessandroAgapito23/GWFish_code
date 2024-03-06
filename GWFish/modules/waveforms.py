@@ -644,18 +644,11 @@ class TaylorF2(Waveform):
         polarizations[np.where(ff[:,0] > 4 * f_isco), :] = 0.j
 
         self._frequency_domain_strain = polarizations
-        
-######################################################################################
     
-    #def print_phase(self):
-     # """Prints the values of self.psi"""
-       # if self.psi is not None:
-           # print(self.phase)
-        #else:
-           # print("Phase has not been calculated yet. Run calculate_frequency_domain_strain() first.")
         
 #####################################################################################
-        
+############################### Amplitude & phase plot ############################## 
+    
     def plot(self, output_folder='./'):
         plt.figure()
         plt.loglog(self.frequencyvector, \
@@ -881,7 +874,8 @@ class TaylorF2_PPE(Waveform):
         self._frequency_domain_strain = polarizations
         
 ################################################################################
-
+############################### Amplitude & phase plot #########################
+    
     def plot (self, output_folder='./'):
         plt.figure()
         plt.loglog(self.frequencyvector, \
@@ -1277,6 +1271,7 @@ class IMRPhenomD(Waveform):
 ################################################################################
 
 class IMRPhenomD_PPE(Waveform):
+    
     """ GWFish implementation of IMRPhenomD_PPE """
     def __init__(self, name, gw_params, data_params):
         super().__init__(name, gw_params, data_params)
@@ -1285,8 +1280,8 @@ class IMRPhenomD_PPE(Waveform):
         if self.name != 'IMRPhenomD_PPE':
             logging.warning('Different waveform name passed to IMRPhenomD_PPE: '+\
                              self.name)
-      
 
+    
     def calculate_frequency_domain_strain(self): 
       #output as 'polarizations = np.hstack((hp * phase, hc * 1.j * phase))'
 
@@ -1318,7 +1313,7 @@ class IMRPhenomD_PPE(Waveform):
         Mc = cst.G * mu ** 0.6 * M ** 0.4 / cst.c ** 3 #chirp Mass in s
         delta_mass = (M1 - M2)/M #always >0
         
-        ff = frequencyvector*cst.G*M/cst.c**3 #adimensional frequency
+        ff = frequencyvector*cst.G*M/cst.c**3 #adimensional frequency ----> ff = 4.93*10^{-6} (M/M_sol)(f/Hz)
         ones = np.ones((len(ff), 1)) 
     
         C = 0.57721566  # Euler constant
@@ -1396,18 +1391,18 @@ class IMRPhenomD_PPE(Waveform):
 
         #INSPIRAL PART OF THE PHASE, with also late inspiral terms
 
-        psi_ins = psi_TF2 +\
-                  1./eta*(3./4.*sigma2*ff**(4./3.) +\
-                  3./5.*sigma3*ff**(5./3.) +\
-                  1./2.*sigma4*ff**2)
+        psi_late_ins = 1./eta*(3./4.*sigma2*ff**(4./3.) + 3./5.*sigma3*ff**(5./3.) + 1./2.*sigma4*ff**2)
+        
+        psi_ins = psi_TF2 + psi_late_ins
+                  
         
         #psi_ins_prime = psi_TF2_prime + 1./eta*(sigma2*ff**(1./3.) + sigma3*ff**(2./3.) + sigma4*ff) evaluated numerically
         
 
         # Evaluate phase and its derivate at the interface between inspiral and intermediate phase
 
-        #f1 = 0.018 #transition frequency M*fint
-        f1 = 0.0166
+        #f1 = 0.018 #transition frequency M*f_int, f_int = 56.3 Hz
+        f1 = 0.0166 #f_int = 52 Hz
 
         
         psi_ins_gradient = interp1d(ff[:,0], np.gradient(psi_ins[:,0])) #derivative 
@@ -1422,6 +1417,8 @@ class IMRPhenomD_PPE(Waveform):
         
         #INSPIRAL PART OF THE FASE, evaluated at f1
 
+        psi_late_ins_f1 = 1./eta*(3./4.*sigma2*f1**(4./3.) + 3./5.*sigma3*f1**(5./3.) + 1./2.*sigma4*f1**2)
+        
         psi_ins_f1 = 2.*np.pi*f1/(cst.G*M)*cst.c**3*tc - phic - np.pi/4. + 3./(128.*eta)*(np.pi*f1)**(-5/3)*(phi_0 +\
                 phi_2*(np.pi*f1)**(2./3.) +\
                 phi_3*(np.pi*f1) +\
@@ -1429,9 +1426,7 @@ class IMRPhenomD_PPE(Waveform):
                 phi_5_f1*(np.pi*f1)**(5./3.) +\
                 phi_6_f1*(np.pi*f1)**2. +\
                 phi_7*(np.pi*f1)**(7./3.)) +\
-                1./eta*(3./4.*sigma2*f1**(4./3.) +\
-                3./5.*sigma3*f1**(5./3.) +\
-                1./2.*sigma4*f1**2)
+                psi_late_ins_f1
     
         psi_ins_prime_f1 = psi_ins_gradient(f1) #derivative of the inspiral part of the fase evaluated at f1
     
@@ -1449,7 +1444,6 @@ class IMRPhenomD_PPE(Waveform):
                 + (chi_PN - 1)**2*(7.157371250566708e-6 - 0.000055780000112270685*eta + 0.00019142082884072178*eta2)\
                 + (chi_PN - 1)**3*(5.447166261464217e-6 - 0.00003220610095021982*eta + 0.00007974016714984341*eta2)
       
-
         #################### INS-INT PHASE CONTINUITY CONDITIONS ###############
 
         # Impose C1 conditions at the interface (same conditions as in IMRPhenomD but with different psi_ins_prime)
