@@ -1681,34 +1681,15 @@ class IMRPhenomD_PPE(Waveform):
 
         ########################################################################
         
-        def plot(self, output_folder='./'):
-        
-        ############################### phi vs freq ############################
-        plt.figure()
-        freq_lim_vec = self.frequencyvector[self.frequencyvector > 0.0166 * cst.c**3 / (cst.G *M)]
-        psi_lim_vec = psi_tot[len(psi_tot)-len(freq_lim_vec):, 0]
-        fig, ax = plt.subplots(figsize=[8, 5])
-        ax.loglog(self.frequencyvector, psi_tot, linewidth=2, color='blue', label='PhenomD')
-        axins = ax.inset_axes([0.5, +0.1, 0.47, 0.47])
-        axins.plot(freq_lim_vec, psi_lim_vec, color='blue', linewidth=2)
-        axins.set_xscale('log')
-        axins.set_yscale('log')
-        axins.set_xticklabels('')
-        axins.set_yticklabels('')
-        axins.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
-        ax.indicate_inset_zoom(axins, edgecolor="black")
-        plt.legend(fontsize=8)
-        plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
-        plt.xlabel('Frequency [Hz]')
-        plt.ylabel('$\phi$')
-        plt.savefig(output_folder + 'psi_phenomD_zoomed.png')
-        plt.close()
-
        #########################################################################
        ################################ PLOT ###################################
        #########################################################################
-    """
+    
     def plot(self, output_folder='./'):
+
+        M1 = self.gw_params['mass_1'] * (1 + z) * cst.Msol
+        M2 = self.gw_params['mass_2'] * (1 + z) * cst.Msol
+        M = M1 + M2
         
         ############################### phi vs freq ############################
         plt.figure()
@@ -1730,7 +1711,7 @@ class IMRPhenomD_PPE(Waveform):
         plt.ylabel('$\phi$')
         plt.savefig(output_folder + 'psi_phenomD_zoomed.png')
         plt.close()
-        """
+
 
     ############################# phi_prime vs freq ############################
         """
