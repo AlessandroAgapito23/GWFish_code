@@ -1309,6 +1309,7 @@ class IMRPhenomD_PPE(Waveform):
         chi_2 = self.gw_params.get('a_2', 0.0)
         
         M = M1 + M2
+        self.M = M
         mu = M1 * M2 / M
         Mc = cst.G * mu ** 0.6 * M ** 0.4 / cst.c ** 3 #chirp Mass in s
         delta_mass = (M1 - M2)/M #always >0
@@ -1687,25 +1688,8 @@ class IMRPhenomD_PPE(Waveform):
        #########################################################################
 
     def plot(self, output_folder='./'):
-
-    ############################# phi_prime vs freq ############################
-        """
-        plt.figure()
-        plt.semilogx(self.frequencyvector, psi_prime_tot, linewidth=2, color='blue', label='PhenomD')
-        y_loc = (1 + 1e-9) * psi_prime_tot[0, 0]
-        plt.axvline(x=0.018 * cst.c**3 / (cst.G * M), color='orange', linestyle='--', linewidth=2)
-        plt.axvline(x=ff_RD * cst.c**3 / (cst.G * M), color='orange', linestyle='--', linewidth=2)
-        plt.text(1.05 * 0.018 * cst.c**3 / (cst.G * M), y_loc, '$Mf = 0.018$', rotation=90, fontsize=12, color='orange')
-        plt.text(1.05 * ff_RD * cst.c**3 / (cst.G * M), y_loc, '$f_{RD}$', rotation=90, fontsize=12, color='orange')
-        plt.legend(fontsize=8)
-        plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
-        plt.xlabel('Frequency [Hz]')
-        plt.ylabel('$\phi$_prime')
-        plt.savefig(output_folder + 'psi_prime_phenomD.png')
-        plt.close()
-        """
-      
-    ############################### phi vs freq ############################
+        
+        ############################### phi vs freq ############################
         plt.figure()
         freq_lim_vec = self.frequencyvector[self.frequencyvector > 0.0166 * cst.c**3 / (cst.G * M)]
         psi_lim_vec = psi_tot[len(psi_tot)-len(freq_lim_vec):, 0]
@@ -1725,6 +1709,23 @@ class IMRPhenomD_PPE(Waveform):
         plt.ylabel('$\phi$')
         plt.savefig(output_folder + 'psi_phenomD_zoomed.png')
         plt.close()
+
+    ############################# phi_prime vs freq ############################
+        """
+        plt.figure()
+        plt.semilogx(self.frequencyvector, psi_prime_tot, linewidth=2, color='blue', label='PhenomD')
+        y_loc = (1 + 1e-9) * psi_prime_tot[0, 0]
+        plt.axvline(x=0.018 * cst.c**3 / (cst.G * M), color='orange', linestyle='--', linewidth=2)
+        plt.axvline(x=ff_RD * cst.c**3 / (cst.G * M), color='orange', linestyle='--', linewidth=2)
+        plt.text(1.05 * 0.018 * cst.c**3 / (cst.G * M), y_loc, '$Mf = 0.018$', rotation=90, fontsize=12, color='orange')
+        plt.text(1.05 * ff_RD * cst.c**3 / (cst.G * M), y_loc, '$f_{RD}$', rotation=90, fontsize=12, color='orange')
+        plt.legend(fontsize=8)
+        plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
+        plt.xlabel('Frequency [Hz]')
+        plt.ylabel('$\phi$_prime')
+        plt.savefig(output_folder + 'psi_prime_phenomD.png')
+        plt.close()
+        """
 
 ######################### h_plus & h_cross vs freq #######################
     """  
