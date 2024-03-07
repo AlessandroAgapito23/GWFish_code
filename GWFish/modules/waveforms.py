@@ -1632,7 +1632,7 @@ class IMRPhenomD_PPE(Waveform):
             
         # Conjunction frequencies
         #f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
-        f3_amp = ff_RD
+        f3_amp = 0.5*ff_RD
         f2_amp = (f1_amp + f3_amp)/2.
 
         
@@ -1670,7 +1670,6 @@ class IMRPhenomD_PPE(Waveform):
     
         # Overall (2,2) mode factor and its derivative
         A0 = 1./(np.pi**(2./3.))*(5./24.)**(0.5)*cst.c/r*Mc**(5./6.)*frequencyvector**(-7./6.) # = C*(f/f_int)^{-7/6}
-        
 
         ####################### AMPLITUDE COMPONENTS ###########################
         ###################### written continuosly in frequency ################
