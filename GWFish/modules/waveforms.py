@@ -1620,7 +1620,7 @@ class IMRPhenomD_PPE(Waveform):
         f2_amp = (f1_amp + f3_amp)/2.
 
         
-        #amp_MR = gamma1*(gamma3*ff_damp*ones)/((ff - ff_RD*ones)**2. + (gamma3*ff_damp*ones)**2)*np.exp(-gamma2*(ff - ff_RD*ones)/(gamma3*ff_damp*ones))
+        amp_MR = gamma1*(gamma3*ff_damp*ones)/((ff - ff_RD*ones)**2. + (gamma3*ff_damp*ones)**2)*np.exp(-gamma2*(ff - ff_RD*ones)/(gamma3*ff_damp*ones))
 
     
         amp_MR_f3, amp_MR_prime_f3 = phenomD_amp_MR(f3_amp, self.gw_params, ff_damp, ff_RD, gamma1, gamma2, gamma3)
