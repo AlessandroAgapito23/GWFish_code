@@ -1688,6 +1688,7 @@ class IMRPhenomD_PPE(Waveform):
     
     def plot(self, output_folder='./'):
         
+        self.calculate_frequency_domain_strain()  # Calculate psi_tot
         z = self.gw_params['redshift']
         M1 = self.gw_params['mass_1'] * (1 + z) * cst.Msol
         M2 = self.gw_params['mass_2'] * (1 + z) * cst.Msol
@@ -1737,24 +1738,24 @@ class IMRPhenomD_PPE(Waveform):
         """
 
 ######################### h_plus & h_cross vs freq #######################
-    """  
-    plt.figure()
-    #y_height = plot[3]/10
-    plt.loglog(self.frequencyvector, np.abs(polarizations[:, 0]), linewidth=2, color='blue', label=r'$h_+$')
-    plt.loglog(self.frequencyvector, np.abs(polarizations[:, 1]), linewidth=2, color='blue', label=r'$h_\times$')
-    plt.axvline(x=f1_amp*cst.c**3/(M*cst.G), color='orange', linestyle='--', linewidth=2)
-    plt.axvline(x=f2_amp*cst.c**3/(M*cst.G), color='orange', linestyle='--', linewidth=2)
-    plt.axvline(x=f3_amp*cst.c**3/(M*cst.G), color='orange', linestyle='--', linewidth=2)
-    plt.text(1.05*f1_amp*cst.c**3/(M*cst.G), y_height, 'f1_match', rotation=90, fontsize=10, color='orange')
-    plt.text(1.05*f3_amp*cst.c**3/(M*cst.G), y_height, 'f3_match', rotation=90, fontsize=10, color='orange')
-    plt.text(1.05*f2_amp*cst.c**3/(M*cst.G), y_height, 'f2_match', rotation=90, fontsize=10, color='orange')
-    plt.legend(fontsize=8)
-    #plt.axis(plot)
-    plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
-    plt.xlabel('Frequency [Hz]')
-    plt.ylabel(r'Fourier amplitude [$Hz^{-1}$]')
-    plt.savefig(output_folder + 'amp_phenomD.png')
-    plt.close()"""
+        """  
+        plt.figure()
+        #y_height = plot[3]/10
+        plt.loglog(self.frequencyvector, np.abs(polarizations[:, 0]), linewidth=2, color='blue', label=r'$h_+$')
+        plt.loglog(self.frequencyvector, np.abs(polarizations[:, 1]), linewidth=2, color='blue', label=r'$h_\times$')
+        plt.axvline(x=f1_amp*cst.c**3/(M*cst.G), color='orange', linestyle='--', linewidth=2)
+        plt.axvline(x=f2_amp*cst.c**3/(M*cst.G), color='orange', linestyle='--', linewidth=2)
+        plt.axvline(x=f3_amp*cst.c**3/(M*cst.G), color='orange', linestyle='--', linewidth=2)
+        plt.text(1.05*f1_amp*cst.c**3/(M*cst.G), y_height, 'f1_match', rotation=90, fontsize=10, color='orange')
+        plt.text(1.05*f3_amp*cst.c**3/(M*cst.G), y_height, 'f3_match', rotation=90, fontsize=10, color='orange')
+        plt.text(1.05*f2_amp*cst.c**3/(M*cst.G), y_height, 'f2_match', rotation=90, fontsize=10, color='orange')
+        plt.legend(fontsize=8)
+        #plt.axis(plot)
+        plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
+        plt.xlabel('Frequency [Hz]')
+        plt.ylabel(r'Fourier amplitude [$Hz^{-1}$]')
+        plt.savefig(output_folder + 'amp_phenomD.png')
+        plt.close()"""
         
 
        
