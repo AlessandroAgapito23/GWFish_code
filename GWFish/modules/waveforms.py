@@ -1633,7 +1633,7 @@ class IMRPhenomD_PPE(Waveform):
                 + (chi_PN - 1)**2*(-0.05296577374411866 - 0.9923793203111362*eta + 4.820681208409587*eta2)\
                 + (chi_PN - 1)**3*(-0.006134139870393713 - 0.38429253308696365*eta + 1.7561754421985984*eta2)
                 """
-        gamma1 = gamma3 = gammsa2 = 1.
+        gamma1 = gamma3 = gamma2 = 1.
     
             
         # Conjunction frequencies
