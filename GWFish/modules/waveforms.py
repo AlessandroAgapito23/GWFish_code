@@ -1650,14 +1650,14 @@ class IMRPhenomD_PPE(Waveform):
                         [0., 1., 2.*f1_amp, 3.*f1_amp**2., 4.*f1_amp**3.],\
                         [0., 1., 2.*f3_amp, 3.*f3_amp**2., 4.*f3_amp**3.]])
         
-        b = np. array([amp_ins_f1, v2, amp_MR_f3, amp_ins_prime_f1, amp_MR_prime_f3])
+        b = np. array([amp_ins_f1, v2 , amp_MR_f3, amp_ins_prime_f1, amp_MR_prime_f3])
         delta = np.linalg.solve(A, b)
 
         
         # Full intermediate amplitude
         amp_int = (delta[0] + delta[1]*(ff) + delta[2]*(ff)**2. + delta[3]*(ff)**3. +  delta[4]*(ff)**4.)
         # without PN corrections
-        #amp_int = (ff/f3_amp)**(1./2.)
+        #amp_int = delta[0] + delta[1]*(ff)**(-1./3.) + delta[2]*(ff)**(-2./3.) 
 
         ff1_amp = f1_amp*ones
         ff3_amp = f3_amp*ones
@@ -1679,12 +1679,16 @@ class IMRPhenomD_PPE(Waveform):
         amp_MR = theta_plus2_amp*amp_MR*A0
     
         amp_tot = amp_ins + amp_int + amp_MR
+
+        f_cut = 0.3236 + 0.04894*chi_eff + 0.01346*chi_eff**2
         
         ############################### PROJECTIONS ############################
         
         hp = amp_tot*0.5*(1 + np.cos(iota)**2.)
         hc = amp_tot*np.cos(iota)
         polarizations = np.hstack((hp * phase, hc * 1.j * phase))
+
+        polarizations[np.where(frequencyvector[:,0] > f_cut), :] = 0.j
     
 
         ############################### OUTPUT #################################
