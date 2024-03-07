@@ -1681,7 +1681,7 @@ class IMRPhenomD_PPE(Waveform):
     
         amp_tot = amp_ins + amp_int + amp_MR
 
-        f_cut = 0.3236 + 0.04894*chi_eff + 0.01346*chi_eff**2/(cst.G*M/cst.c**3) 
+        f_cut = (0.3236 + 0.04894*chi_eff + 0.01346*chi_eff**2)/(cst.G*M/cst.c**3) 
         #f_cut = ff_RD/(cst.G*M/cst.c**3) 
         
         ############################### PROJECTIONS ############################
