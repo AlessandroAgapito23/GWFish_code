@@ -1592,11 +1592,13 @@ class IMRPhenomD_PPE(Waveform):
         amp_ins_prime_f1 = 0.
 
         ######################################## INTERMEDIATE #######################################
-        
+        """
         v2 = 0.8149838730507785 + 2.5747553517454658*eta\
                 + (chi_PN - 1)*(1.1610198035496786 - 2.3627771785551537*eta + 6.771038707057573*eta2)\
                 + (chi_PN - 1)**2*(0.7570782938606834 - 2.7256896890432474*eta + 7.1140380397149965*eta2)\
                 + (chi_PN - 1)**3*(0.1766934149293479 - 0.7978690983168183*eta + 2.1162391502005153*eta2)
+                """
+        v2 = 1.
         
         ######################################## MERGER-RINGDOWN ####################################
         # Merger-ringdown coefficients
@@ -1639,9 +1641,9 @@ class IMRPhenomD_PPE(Waveform):
 
         
         # Full intermediate amplitude
-        #amp_int = (delta[0] + delta[1]*(ff) + delta[2]*(ff)**2. + delta[3]*(ff)**3. +  delta[4]*(ff)**4.)
+        amp_int = (delta[0] + delta[1]*(ff) + delta[2]*(ff)**2. + delta[3]*(ff)**3. +  delta[4]*(ff)**4.)
         # without PN corrections
-        amp_int = (ff/f3_amp)**(1./2.)
+        #amp_int = (ff/f3_amp)**(1./2.)
 
         ff1_amp = f1_amp*ones
         ff3_amp = f3_amp*ones
