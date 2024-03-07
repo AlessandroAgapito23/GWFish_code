@@ -1389,22 +1389,18 @@ class IMRPhenomD_PPE(Waveform):
                 + (chi_PN - 1)**2*(-22366.683262266528 - 2.5019716386377467e6*eta + 1.0274495902259542e7*eta2)\
                 + (chi_PN - 1)**3*(-85360.30079034246 - 570025.3441737515*eta + 4.396844346849777e6*eta2)
 
-        #INSPIRAL PART OF THE PHASE, with also late inspiral terms
-
         psi_late_ins = 1./eta*(3./4.*sigma2*ff**(4./3.) + 3./5.*sigma3*ff**(5./3.) + 1./2.*sigma4*ff**2)
+
+        #INSPIRAL PART OF THE PHASE, with also late inspiral terms
         
         psi_ins = psi_TF2 + psi_late_ins
-                  
-        
-        #psi_ins_prime = psi_TF2_prime + 1./eta*(sigma2*ff**(1./3.) + sigma3*ff**(2./3.) + sigma4*ff) evaluated numerically
-        
 
         # Evaluate phase and its derivate at the interface between inspiral and intermediate phase
+        #psi_ins_prime = psi_TF2_prime + 1./eta*(sigma2*ff**(1./3.) + sigma3*ff**(2./3.) + sigma4*ff) evaluated numerically
 
         #f1 = 0.018 #transition frequency M*f_int, f_int = 56.3 Hz
         f1 = 0.0166 #f_int = 52 Hz
 
-        
         psi_ins_gradient = interp1d(ff[:,0], np.gradient(psi_ins[:,0])) #derivative 
         
         #phi_5 and phi_6 are the only ones which depend on the frequency
@@ -1586,13 +1582,21 @@ class IMRPhenomD_PPE(Waveform):
         amp_ins_pn_f1 = a_2*(np.pi*f1_amp)**(2./3.) + a_3*(np.pi*f1_amp) + a_4*(np.pi*f1_amp)**(4./3.) +\
                 a_5*(np.pi*f1_amp)**(5./3.) + a_6*(np.pi*f1_amp)**2. + rho1*f1_amp**(7./3.) +\
                 rho2*f1_amp**(8./3.) + rho3*f1_amp**3.
+        
         amp_ins_f1 = a_0
 
         amp_ins_prime_f1_pn  = 2./3.*a_2*np.pi**(2./3.)*f1_amp**(-1./3.) + a_3*np.pi + 4./3.*a_4*np.pi**(4./3.)*f1_amp**(1./3.) +\
                             5./3.*a_5*np.pi**(5./3.)*f1_amp**(2./3.) + 2*a_6*np.pi**2.*f1_amp + 7./3.*rho1*f1_amp**(4./3.) +\
                             8./3.*rho2*f1_amp**(5./3.) + 3.*rho3*f1_amp**2.
-        amp_ins_prime_f1 = 0.
         
+        amp_ins_prime_f1 = 0.
+
+        ######################################## INTERMEDIATE #######################################
+        
+        v2 = 0.8149838730507785 + 2.5747553517454658*eta\
+                + (chi_PN - 1)*(1.1610198035496786 - 2.3627771785551537*eta + 6.771038707057573*eta2)\
+                + (chi_PN - 1)**2*(0.7570782938606834 - 2.7256896890432474*eta + 7.1140380397149965*eta2)\
+                + (chi_PN - 1)**3*(0.1766934149293479 - 0.7978690983168183*eta + 2.1162391502005153*eta2)
         
         ######################################## MERGER-RINGDOWN ####################################
         # Merger-ringdown coefficients
@@ -1611,20 +1615,12 @@ class IMRPhenomD_PPE(Waveform):
                 + (chi_PN - 1)**3*(-0.006134139870393713 - 0.38429253308696365*eta + 1.7561754421985984*eta2)
     
         
-        
         # Conjunction frequencies
         f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
         f2_amp = (f1_amp + f3_amp)/2.
-    
+
         
-        # Intermediate phase 
-        v2 = 0.8149838730507785 + 2.5747553517454658*eta\
-                + (chi_PN - 1)*(1.1610198035496786 - 2.3627771785551537*eta + 6.771038707057573*eta2)\
-                + (chi_PN - 1)**2*(0.7570782938606834 - 2.7256896890432474*eta + 7.1140380397149965*eta2)\
-                + (chi_PN - 1)**3*(0.1766934149293479 - 0.7978690983168183*eta + 2.1162391502005153*eta2)
-        
-        amp_MR = gamma1*(gamma3*ff_damp*ones)/((ff - ff_RD*ones)**2. +\
-                (gamma3*ff_damp*ones)**2)*np.exp(-gamma2*(ff - ff_RD*ones)/(gamma3*ff_damp*ones))
+        #amp_MR = gamma1*(gamma3*ff_damp*ones)/((ff - ff_RD*ones)**2. + (gamma3*ff_damp*ones)**2)*np.exp(-gamma2*(ff - ff_RD*ones)/(gamma3*ff_damp*ones))
 
     
         amp_MR_f3, amp_MR_prime_f3 = phenomD_amp_MR(f3_amp, self.gw_params, ff_damp, ff_RD, gamma1, gamma2, gamma3)
@@ -1643,8 +1639,9 @@ class IMRPhenomD_PPE(Waveform):
 
         
         # Full intermediate amplitude
-        amp_int = (delta[0] + delta[1]*(ff) + delta[2]*(ff)**2. + delta[3]*(ff)**3. +\
-                delta[4]*(ff)**4.)
+        #amp_int = (delta[0] + delta[1]*(ff) + delta[2]*(ff)**2. + delta[3]*(ff)**3. +  delta[4]*(ff)**4.)
+        # without PN corrections
+        amp_int = (ff/f3_amp)**(1./2.)
 
         ff1_amp = f1_amp*ones
         ff3_amp = f3_amp*ones
@@ -1656,7 +1653,7 @@ class IMRPhenomD_PPE(Waveform):
         theta_plus2_amp = 0.5*(1*ones + step_function(ff,ff3_amp))
     
         # Overall (2,2) mode factor and its derivative
-        A0 = 1./(np.pi**(2./3.))*(5./24.)**(0.5)*cst.c/r*Mc**(5./6.)*frequencyvector**(-7./6.)
+        A0 = 1./(np.pi**(2./3.))*(5./24.)**(0.5)*cst.c/r*Mc**(5./6.)*frequencyvector**(-7./6.) # = C*(f/f_int)^{-7/6}
         
 
         ####################### AMPLITUDE COMPONENTS ###########################
