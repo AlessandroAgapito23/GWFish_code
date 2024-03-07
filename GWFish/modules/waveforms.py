@@ -1681,7 +1681,7 @@ class IMRPhenomD_PPE(Waveform):
     
         amp_tot = amp_ins + amp_int + amp_MR
 
-        #f_cut = 0.3236 + 0.04894*chi_eff + 0.01346*chi_eff**2/(cst.G*M/cst.c**3) 
+        f_cut = 0.3236 + 0.04894*chi_eff + 0.01346*chi_eff**2/(cst.G*M/cst.c**3) 
         #f_cut = ff_RD/(cst.G*M/cst.c**3) 
         
         ############################### PROJECTIONS ############################
@@ -1689,6 +1689,8 @@ class IMRPhenomD_PPE(Waveform):
         hp = amp_tot*0.5*(1 + np.cos(iota)**2.)
         hc = amp_tot*np.cos(iota)
         polarizations = np.hstack((hp * phase, hc * 1.j * phase))
+
+        polarizations[np.where(frequencyvector[:,0] > f_cut), :] = 0.j
 
         ############################### OUTPUT #################################
 
