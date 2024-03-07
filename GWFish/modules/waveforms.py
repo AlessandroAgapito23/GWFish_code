@@ -1686,7 +1686,8 @@ class IMRPhenomD_PPE(Waveform):
        #########################################################################
     
     def plot(self, output_folder='./'):
-
+        
+        z = self.gw_params['redshift']
         M1 = self.gw_params['mass_1'] * (1 + z) * cst.Msol
         M2 = self.gw_params['mass_2'] * (1 + z) * cst.Msol
         M = M1 + M2
