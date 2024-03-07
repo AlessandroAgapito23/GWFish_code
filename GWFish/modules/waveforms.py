@@ -1697,7 +1697,7 @@ class IMRPhenomD_PPE(Waveform):
         plt.figure()
         
         freq_lim_vec = self.frequencyvector[self.frequencyvector > 0.0166 * cst.c**3 / (cst.G * M)]
-        psi_lim_vec = psi_tot[len(psi_tot)-len(freq_lim_vec):, 0]
+        psi_lim_vec = self.psi_tot[len(self.psi_tot)-len(freq_lim_vec):, 0]
         
         fig, ax = plt.subplots(figsize=[8, 5])
         ax.loglog(self.frequencyvector, self.psi_tot, linewidth=2, color='blue', label='PhenomD')
