@@ -1524,6 +1524,7 @@ class IMRPhenomD_PPE(Waveform):
     
        
         psi_tot = psi_ins + psi_int + psi_MR
+        self.psi_tot = psi_tot
         psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+theta_minus2*psi_int_prime*theta_plus1+theta_plus2*psi_MR_prime
 
              
@@ -1694,10 +1695,13 @@ class IMRPhenomD_PPE(Waveform):
         
         ############################### phi vs freq ############################
         plt.figure()
+        
         freq_lim_vec = self.frequencyvector[self.frequencyvector > 0.0166 * cst.c**3 / (cst.G * M)]
         psi_lim_vec = psi_tot[len(psi_tot)-len(freq_lim_vec):, 0]
+        
         fig, ax = plt.subplots(figsize=[8, 5])
-        ax.loglog(self.frequencyvector, psi_tot, linewidth=2, color='blue', label='PhenomD')
+        ax.loglog(self.frequencyvector, self.psi_tot, linewidth=2, color='blue', label='PhenomD')
+        
         axins = ax.inset_axes([0.5, +0.1, 0.47, 0.47])
         axins.plot(freq_lim_vec, psi_lim_vec, color='blue', linewidth=2)
         axins.set_xscale('log')
@@ -1706,6 +1710,7 @@ class IMRPhenomD_PPE(Waveform):
         axins.set_yticklabels('')
         axins.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
         ax.indicate_inset_zoom(axins, edgecolor="black")
+        
         plt.legend(fontsize=8)
         plt.grid(which='both', color='lightgray', alpha=0.5, linestyle='dashed', linewidth=0.5)
         plt.xlabel('Frequency [Hz]')
