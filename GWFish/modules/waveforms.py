@@ -1379,7 +1379,8 @@ class IMRPhenomD_PPE(Waveform):
        
 
         #EARLY INSPIRAL PART OF THE PHASE phi_EI(f)
-        psi_TF2 = 2.*np.pi*ff*cst.c**3/(cst.G*M)*tc - phic*ones - np.pi/4.*ones + 3./(128.*eta)*((np.pi*ff)**(-5./3.) +\
+        psi_TF2 = 2.*np.pi*ff*cst.c**3/(cst.G*M)*tc - phic*ones - np.pi/4.*ones +\
+                3./(128.*eta)*((np.pi*ff)**(-5./3.) +\
                 phi_2*(np.pi*ff)**(-1.) +\
                 phi_3*(np.pi*ff)**(-2./3.) +\
                 phi_4*(np.pi*ff)**(-1./3.) +\
@@ -1537,11 +1538,11 @@ class IMRPhenomD_PPE(Waveform):
         psi_MR = psi_MR*theta_plus2
     
        
-        psi_tot = psi_ins + psi_int + psi_MR
+        #psi_tot = psi_ins + psi_int + psi_MR
+        psi_tot = psi_ins
         self.psi_tot = psi_tot
         psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+theta_minus2*psi_int_prime*theta_plus1+theta_plus2*psi_MR_prime
 
-             
         ########################### PHASE OUTPUT ###############################
          
         phase = np.exp(1.j * psi_tot)
@@ -1681,16 +1682,13 @@ class IMRPhenomD_PPE(Waveform):
         amp_tot = amp_ins + amp_int + amp_MR
 
         #f_cut = 0.3236 + 0.04894*chi_eff + 0.01346*chi_eff**2/(cst.G*M/cst.c**3) 
-        f_cut = ff_RD/(cst.G*M/cst.c**3) 
+        #f_cut = ff_RD/(cst.G*M/cst.c**3) 
         
         ############################### PROJECTIONS ############################
         
         hp = amp_tot*0.5*(1 + np.cos(iota)**2.)
         hc = amp_tot*np.cos(iota)
         polarizations = np.hstack((hp * phase, hc * 1.j * phase))
-
-        polarizations[np.where(frequencyvector[:,0] > f_cut), :] = 0.j
-    
 
         ############################### OUTPUT #################################
 
