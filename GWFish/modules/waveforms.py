@@ -1585,7 +1585,8 @@ class IMRPhenomD_PPE(Waveform):
         
         a_pn_ei = a_2*(np.pi*ff)**(2./3.) + a_3*(np.pi*ff) + a_4*(np.pi*ff)**(4./3.) + a_5*(np.pi*ff)**(5./3.) + a_6*(np.pi*ff)**2.
 
-        amp_PN = a_0 #without PN corrections
+       # amp_PN = a_0 #without PN corrections
+        amp_PN = a_0 + a_pn_ei
 
     
         # Late inspiral coefficients
@@ -1603,24 +1604,24 @@ class IMRPhenomD_PPE(Waveform):
                 + (chi_PN - 1)**3*(-1.4535031953446497e6 + 1.7063528990822166e7*eta - 4.2748659731120914e7*eta2)
         
         amp_pn_li = rho1*(ff)**(7./3.) + rho2*(ff)**(8./3.) + rho3*(ff)**3.
-        amp_ins = amp_PN #without corrections
-        #amp_ins = amp_PN + amp_pn_li
+        #amp_ins = amp_PN #without corrections
+        amp_ins = amp_PN + amp_pn_li
         
         # Conjunction frequencies
         f1_amp = 0.014
-
-        amp_ins_pn_f1 = a_2*(np.pi*f1_amp)**(2./3.) + a_3*(np.pi*f1_amp) + a_4*(np.pi*f1_amp)**(4./3.) +\
+        
+        amp_ins_f1 = a_0 + a_2*(np.pi*f1_amp)**(2./3.) + a_3*(np.pi*f1_amp) + a_4*(np.pi*f1_amp)**(4./3.) +\
                 a_5*(np.pi*f1_amp)**(5./3.) + a_6*(np.pi*f1_amp)**2. + rho1*f1_amp**(7./3.) +\
                 rho2*f1_amp**(8./3.) + rho3*f1_amp**3.
-        
-        amp_ins_f1 = a_0
+    
+        amp_ins_prime_f1 = 2./3.*a_2*np.pi**(2./3.)*f1_amp**(-1./3.) + a_3*np.pi + 4./3.*a_4*np.pi**(4./3.)*f1_amp**(1./3.) +\
+                            5./3.*a_5*np.pi**(5./3.)*f1_amp**(2./3.) + 2*a_6*np.pi**2.*f1_amp + 7./3.*rho1*f1_amp**(4./3.) +\
+                            8./3.*rho2*f1_amp**(5./3.) + 3.*rho3*f1_amp**2.
 
-        amp_ins_prime_f1_pn  = 2./3.*a_2*np.pi**(2./3.)*f1_amp**(-1./3.) + a_3*np.pi + 4./3.*a_4*np.pi**(4./3.)*f1_amp**(1./3.) +\
+        amp_ins_prime_f1 = 2./3.*a_2*np.pi**(2./3.)*f1_amp**(-1./3.) + a_3*np.pi + 4./3.*a_4*np.pi**(4./3.)*f1_amp**(1./3.) +\
                             5./3.*a_5*np.pi**(5./3.)*f1_amp**(2./3.) + 2*a_6*np.pi**2.*f1_amp + 7./3.*rho1*f1_amp**(4./3.) +\
                             8./3.*rho2*f1_amp**(5./3.) + 3.*rho3*f1_amp**2.
         
-        amp_ins_prime_f1 = 0.
-
         ######################################## INTERMEDIATE #######################################
         
         v2 = 0.8149838730507785 + 2.5747553517454658*eta\
@@ -1645,15 +1646,15 @@ class IMRPhenomD_PPE(Waveform):
     
             
         # Conjunction frequencies
-        #f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
-        f3_amp = ff_RD
+        f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
+        #f3_amp = ff_RD
         f2_amp = (f1_amp + f3_amp)/2.
 
         
-        #amp_MR = gamma1*(gamma3*ff_damp*ones)/((ff - ff_RD*ones)**2. + (gamma3*ff_damp*ones)**2)*np.exp(-gamma2*(ff - ff_RD*ones)/(gamma3*ff_damp*ones))
-        amp_MR = gamma1*(gamma3*ff_damp*ones)/((ff - ff_RD*ones)**2. + (gamma3*ff_damp*ones)**2)
+        amp_MR = gamma1*(gamma3*ff_damp*ones)/((ff - ff_RD*ones)**2. + (gamma3*ff_damp*ones)**2)*np.exp(-gamma2*(ff - ff_RD*ones)/(gamma3*ff_damp*ones))
+        #amp_MR = gamma1*(gamma3*ff_damp*ones)/((ff - ff_RD*ones)**2. + (gamma3*ff_damp*ones)**2)
 
-        amp_MR_f3, amp_MR_prime_f3 = phenomD_amp_MR_PPE(f3_amp, self.gw_params, ff_damp, ff_RD, gamma1, gamma3)
+        amp_MR_f3, amp_MR_prime_f3 = phenomD_amp_MR(f3_amp, self.gw_params, ff_damp, ff_RD, gamma1, gamma2, gamma3)
         amp_MR_f3 = float(amp_MR_f3)
         amp_MR_prime_f3 = float(amp_MR_prime_f3)
        
@@ -1694,7 +1695,7 @@ class IMRPhenomD_PPE(Waveform):
     
         amp_tot = amp_ins + amp_int + amp_MR
 
-        f_cut = (0.324 + 0.04894*chi_eff + 0.01346*chi_eff**2)/(cst.G*M/cst.c**3) 
+        #f_cut = (0.324 + 0.04894*chi_eff + 0.01346*chi_eff**2)/(cst.G*M/cst.c**3) 
         #f_cut = ff_RD/(cst.G*M/cst.c**3) 
         
         ############################### PROJECTIONS ############################
