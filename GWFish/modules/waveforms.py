@@ -1390,7 +1390,7 @@ class IMRPhenomD_PPE(Waveform):
         
         psi_ppe = beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.)) #ppe correction at every b order
 
-        psi_early_ins = psi_TF2 + psi_ppe
+        #psi_ins = psi_TF2 + psi_ppe
         
         #LATE INSPIRAL Phase Coefficients >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         #(sigma0=sigma1=0 due to phase translation)
@@ -1419,7 +1419,8 @@ class IMRPhenomD_PPE(Waveform):
         #f1 = 0.018 #transition frequency M*f_int, f_int = 56.3 Hz
         f1 = 0.0166 #f_int = 52 Hz
 
-        psi_ins_gradient = interp1d(ff[:,0], np.gradient(psi_ins[:,0])) #derivative 
+        psi_ins_gradient = interp1d(ff[:,0], np.gradient(psi_ins[:,0])) #derivative
+        #psi_int_MR_gradient = interp1d(ff[:,0], np.gradient(psi_TF2[:,0])) #derivative
         
         #phi_5 and phi_6 are the only ones which depend on the frequency
 
@@ -1430,8 +1431,6 @@ class IMRPhenomD_PPE(Waveform):
                 (2270.*np.pi/3. - 520.*np.pi*eta)*chi_s
         
         #INSPIRAL PART OF THE FASE, evaluated at f1
-
-        psi_late_ins_f1 = 1./eta*(3./4.*sigma2*f1**(4./3.) + 3./5.*sigma3*f1**(5./3.) + 1./2.*sigma4*f1**2)
         
         psi_ins_f1 = 2.*np.pi*f1/(cst.G*M)*cst.c**3*tc - phic - np.pi/4. + 3./(128.*eta)*(np.pi*f1)**(-5/3)*(phi_0 +\
                 phi_2*(np.pi*f1)**(2./3.) +\
@@ -1440,7 +1439,13 @@ class IMRPhenomD_PPE(Waveform):
                 phi_5_f1*(np.pi*f1)**(5./3.) +\
                 phi_6_f1*(np.pi*f1)**2. +\
                 phi_7*(np.pi*f1)**(7./3.)) +\
-                psi_late_ins_f1
+                
+        psi_ppe_f1 = beta*((np.pi*51.96*Mc)**((2*PN-5.)/3.))
+
+        psi_late_ins_f1 = 1./eta*(3./4.*sigma2*f1**(4./3.) + 3./5.*sigma3*f1**(5./3.) + 1./2.*sigma4*f1**2)
+
+        #psi_ins_f1 = psi_ins_f1 + psi_ppe_f1
+        psi_ins_f1 = psi_ins_f1 + psi_ppe_f1 + psi_late_ins_f1        
     
         psi_ins_prime_f1 = psi_ins_gradient(f1) #derivative of the inspiral part of the fase evaluated at f1
     
@@ -1539,14 +1544,15 @@ class IMRPhenomD_PPE(Waveform):
         psi_int = theta_plus1*psi_int*theta_minus2
         psi_MR = psi_MR*theta_plus2
         
-        psi_early_ins = psi_early_ins*theta_minus1
-        psi_int_MR = psi_TF2*theta_plus1
+        #psi_early_ins = psi_early_ins*theta_minus1
+        #psi_int_MR = psi_TF2*theta_plus1
     
        
-        #psi_tot = psi_ins + psi_int + psi_MR
-        psi_tot = psi_early_ins + psi_int_MR 
+        psi_tot = psi_ins + psi_int + psi_MR
+        #psi_tot = psi_early_ins + psi_int_MR 
         self.psi_tot = psi_tot
         
+        #psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+psi_int_MR_gradient(ff)*theta_plus1
         psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+theta_minus2*psi_int_prime*theta_plus1+theta_plus2*psi_MR_prime
 
         ########################### PHASE OUTPUT ###############################
