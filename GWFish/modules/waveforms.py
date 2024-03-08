@@ -1438,7 +1438,7 @@ class IMRPhenomD_PPE(Waveform):
                 phi_4*(np.pi*f1)**(4./3.) +\
                 phi_5_f1*(np.pi*f1)**(5./3.) +\
                 phi_6_f1*(np.pi*f1)**2. +\
-                phi_7*(np.pi*f1)**(7./3.)) +\
+                phi_7*(np.pi*f1)**(7./3.))
                 
         psi_ppe_f1 = beta*((np.pi*51.96*Mc)**((2*PN-5.)/3.))
 
