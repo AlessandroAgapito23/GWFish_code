@@ -1386,8 +1386,11 @@ class IMRPhenomD_PPE(Waveform):
                 phi_4*(np.pi*ff)**(-1./3.) +\
                 phi_5 +\
                 phi_6*(np.pi*ff)**(1./3.) +\
-                phi_7*(np.pi*ff)**(2./3.)) +\
-                beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.))  #ppe correction at every b order
+                phi_7*(np.pi*ff)**(2./3.))
+        
+        psi_ppe = beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.)) #ppe correction at every b order
+
+        psi_early_ins = psi_TF2 + psi_ppe
         
         #LATE INSPIRAL Phase Coefficients >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         #(sigma0=sigma1=0 due to phase translation)
@@ -1408,8 +1411,7 @@ class IMRPhenomD_PPE(Waveform):
         psi_late_ins = 1./eta*(3./4.*sigma2*ff**(4./3.) + 3./5.*sigma3*ff**(5./3.) + 1./2.*sigma4*ff**2)
 
         #INSPIRAL PART OF THE PHASE, with also late inspiral terms
-        
-        psi_ins = psi_TF2 + psi_late_ins
+        psi_ins = psi_TF2 + psi_ppe + psi_late_ins
 
         # Evaluate phase and its derivate at the interface between inspiral and intermediate phase
         #psi_ins_prime = psi_TF2_prime + 1./eta*(sigma2*ff**(1./3.) + sigma3*ff**(2./3.) + sigma4*ff) evaluated numerically
@@ -1537,12 +1539,12 @@ class IMRPhenomD_PPE(Waveform):
         psi_int = theta_plus1*psi_int*theta_minus2
         psi_MR = psi_MR*theta_plus2
         
-        psi_ppe = psi_ins*theta_minus1
-        psi = (psi_ppe-beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.)))*theta_plus1
+        psi_early_ins = psi_early_ins*theta_minus1
+        psi_int_MR = psi_TF2*theta_plus1
     
        
         #psi_tot = psi_ins + psi_int + psi_MR
-        psi_tot = psi_ppe + psi 
+        psi_tot = psi_early_ins + psi_int_MR 
         self.psi_tot = psi_tot
         
         psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+theta_minus2*psi_int_prime*theta_plus1+theta_plus2*psi_MR_prime
