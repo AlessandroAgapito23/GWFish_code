@@ -1390,7 +1390,7 @@ class IMRPhenomD_PPE(Waveform):
         
         psi_ppe = beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.)) #ppe correction at every b order
 
-        psi_ins = psi_TF2 + psi_ppe
+        #psi_ins = psi_TF2 + psi_ppe
         
         #LATE INSPIRAL Phase Coefficients >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         #(sigma0=sigma1=0 due to phase translation)
@@ -1411,7 +1411,7 @@ class IMRPhenomD_PPE(Waveform):
         psi_late_ins = 1./eta*(3./4.*sigma2*ff**(4./3.) + 3./5.*sigma3*ff**(5./3.) + 1./2.*sigma4*ff**2)
 
         #INSPIRAL PART OF THE PHASE, with also late inspiral terms
-        #psi_ins = psi_TF2 + psi_ppe + psi_late_ins
+        psi_ins = psi_TF2 + psi_ppe + psi_late_ins
 
         # Evaluate phase and its derivate at the interface between inspiral and intermediate phase
         #psi_ins_prime = psi_TF2_prime + 1./eta*(sigma2*ff**(1./3.) + sigma3*ff**(2./3.) + sigma4*ff) evaluated numerically
@@ -1420,7 +1420,7 @@ class IMRPhenomD_PPE(Waveform):
         f1 = 0.0166 #f_int = 52 Hz
 
         psi_ins_gradient = interp1d(ff[:,0], np.gradient(psi_ins[:,0])) #derivative
-        psi_int_MR_gradient = interp1d(ff[:,0], np.gradient(psi_TF2[:,0])) #derivative
+        #psi_int_MR_gradient = interp1d(ff[:,0], np.gradient(psi_TF2[:,0])) #derivative
         
         #phi_5 and phi_6 are the only ones which depend on the frequency
 
@@ -1444,8 +1444,8 @@ class IMRPhenomD_PPE(Waveform):
 
         psi_late_ins_f1 = 1./eta*(3./4.*sigma2*f1**(4./3.) + 3./5.*sigma3*f1**(5./3.) + 1./2.*sigma4*f1**2)
 
-        psi_ins_f1 = psi_ins_f1 + psi_ppe_f1
-        #psi_ins_f1 = psi_ins_f1 + psi_ppe_f1 + psi_late_ins_f1        
+        #psi_ins_f1 = psi_ins_f1 + psi_ppe_f1
+        psi_ins_f1 = psi_ins_f1 + psi_ppe_f1 + psi_late_ins_f1        
     
         psi_ins_prime_f1 = psi_ins_gradient(f1) #derivative of the inspiral part of the fase evaluated at f1
     
@@ -1545,15 +1545,15 @@ class IMRPhenomD_PPE(Waveform):
         psi_MR = psi_MR*theta_plus2
         
         #psi_early_ins = psi_early_ins*theta_minus1
-        psi_int_MR = psi_TF2*theta_plus1
+        #psi_int_MR = psi_TF2*theta_plus1
     
        
-        #psi_tot = psi_ins + psi_int + psi_MR
-        psi_tot = psi_ins + psi_int_MR 
+        psi_tot = psi_ins + psi_int + psi_MR
+        #psi_tot = psi_ins + psi_int_MR 
         self.psi_tot = psi_tot
         
-        psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+psi_int_MR_gradient(ff)*theta_plus1
-        #psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+theta_minus2*psi_int_prime*theta_plus1+theta_plus2*psi_MR_prime
+        #psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+psi_int_MR_gradient(ff)*theta_plus1
+        psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+theta_minus2*psi_int_prime*theta_plus1+theta_plus2*psi_MR_prime
 
         ########################### PHASE OUTPUT ###############################
          
