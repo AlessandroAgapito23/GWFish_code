@@ -1632,8 +1632,8 @@ class IMRPhenomD_PPE(Waveform):
     
             
         # Conjunction frequencies
-        #f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
-        f3_amp = ff_RD
+        f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
+        #f3_amp = ff_RD
         f2_amp = (f1_amp + f3_amp)/2.
 
         
