@@ -1250,10 +1250,10 @@ class TaylorF2_PPE(Waveform):
         
         psi_ppe = beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.))  #ppe correction at every b order
 
-        self.psi = psi_TF2 + psi_ppe + psi_gIMR
+        psi = psi_TF2 + psi_ppe + psi_gIMR
         ########################### PHASE OUTPUT ###############################
 
-        phase = np.exp(1.j * self.psi)
+        phase = np.exp(1.j * psi)
 
         ########################### OUTPUT #####################################
         
