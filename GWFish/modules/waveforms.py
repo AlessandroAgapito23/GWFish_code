@@ -735,19 +735,6 @@ def phenomD_amp_MR(f, parameters, f_damp, f_RD, gamma1, gamma2, gamma3):
     amp_MR_prime_f = amp_MR_prime.evalf(subs={ff: f})
 
     return amp_MR_f, amp_MR_prime_f
-    
-def phenomD_amp_MR_PPE(f, parameters, f_damp, f_RD, gamma1, gamma3):
-    
-    ff = sp.symbols('ff', real=True)
-    amp_MR = gamma1*(gamma3*f_damp)/((ff - f_RD)**2. + (gamma3*f_damp)**2) #Lorenzian
-    
-    amp_MR_f = amp_MR.evalf(subs={ff: f})
-    amp_MR_prime = sp.diff(amp_MR, ff)
-    #print('amp_MR_prime = ', sp.simplify(amp_MR_prime))
-    amp_MR_prime_f = amp_MR_prime.evalf(subs={ff: f})
-
-    return amp_MR_f, amp_MR_prime_f
-
 
 ################################################################################
 ############################### IMRPhenomD #####################################
@@ -1388,7 +1375,7 @@ class IMRPhenomD_PPE(Waveform):
                 phi_6*(np.pi*ff)**(1./3.) +\
                 phi_7*(np.pi*ff)**(2./3.))
         
-        psi_ppe = beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.)) #ppe correction at every b order
+        psi_ppe = beta*((np.pi*(ff/(cst.G*M/cst.c**3))*Mc)**((2*PN-5.)/3.)) #ppe correction at every b order
 
         #psi_ins = psi_TF2 + psi_ppe
         
@@ -1440,7 +1427,7 @@ class IMRPhenomD_PPE(Waveform):
                 phi_6_f1*(np.pi*f1)**2. +\
                 phi_7*(np.pi*f1)**(7./3.))
                 
-        psi_ppe_f1 = beta*((np.pi*51.96*Mc)**((2*PN-5.)/3.))
+        psi_ppe_f1 = beta*((np.pi*(f1/(cst.G*M/cst.c**3)*Mc))**((2*PN-5.)/3.))
 
         psi_late_ins_f1 = 1./eta*(3./4.*sigma2*f1**(4./3.) + 3./5.*sigma3*f1**(5./3.) + 1./2.*sigma4*f1**2)
 
@@ -1547,7 +1534,6 @@ class IMRPhenomD_PPE(Waveform):
         #psi_early_ins = psi_early_ins*theta_minus1
         #psi_int_MR = psi_TF2*theta_plus1
     
-       
         psi_tot = psi_ins + psi_int + psi_MR
         #psi_tot = psi_ins + psi_int_MR 
         self.psi_tot = psi_tot
