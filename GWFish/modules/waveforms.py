@@ -1591,8 +1591,9 @@ class IMRPhenomD_PPE(Waveform):
                 + (chi_PN - 1)**3*(-1.4535031953446497e6 + 1.7063528990822166e7*eta - 4.2748659731120914e7*eta2)
         
         amp_pn_li = rho1*(ff)**(7./3.) + rho2*(ff)**(8./3.) + rho3*(ff)**3.
-        amp_ins = amp_PN #without PN corrections
-
+        amp_ins = amp_PN #without corrections
+        #amp_ins = amp_PN + amp_pn_li
+        
         # Conjunction frequencies
         f1_amp = 0.014
 
@@ -1632,8 +1633,8 @@ class IMRPhenomD_PPE(Waveform):
     
             
         # Conjunction frequencies
-        f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
-        #f3_amp = ff_RD
+        #f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
+        f3_amp = ff_RD
         f2_amp = (f1_amp + f3_amp)/2.
 
         
