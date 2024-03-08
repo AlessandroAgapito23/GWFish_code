@@ -1407,7 +1407,6 @@ class IMRPhenomD_PPE(Waveform):
         f1 = 0.0166 #f_int = 52 Hz
 
         psi_ins_gradient = interp1d(ff[:,0], np.gradient(psi_ins[:,0])) #derivative
-        #psi_int_MR_gradient = interp1d(ff[:,0], np.gradient(psi_TF2[:,0])) #derivative
         
         #phi_5 and phi_6 are the only ones which depend on the frequency
 
@@ -1431,9 +1430,8 @@ class IMRPhenomD_PPE(Waveform):
 
         psi_late_ins_f1 = 1./eta*(3./4.*sigma2*f1**(4./3.) + 3./5.*sigma3*f1**(5./3.) + 1./2.*sigma4*f1**2)
 
-        #psi_ins_f1 = psi_ins_f1 + psi_ppe_f1
-        psi_ins_f1 = psi_ins_f1 + psi_ppe_f1 + psi_late_ins_f1        
-    
+        
+        psi_ins_tot_f1 = psi_ins_f1 + psi_ppe_f1 + psi_late_ins_f1    #inspiral part of the fase evaluated at f1    
         psi_ins_prime_f1 = psi_ins_gradient(f1) #derivative of the inspiral part of the fase evaluated at f1
     
         ########################################################################
@@ -1455,7 +1453,7 @@ class IMRPhenomD_PPE(Waveform):
         # Impose C1 conditions at the interface (same conditions as in IMRPhenomD but with different psi_ins_prime)
         
         beta1 = eta*psi_ins_prime_f1 - beta2*f1**(-1.) - beta3*f1**(-4.)  #psi_ins_prime_f1 = psi_int_prime_f1
-        beta0 = eta*psi_ins_f1 - beta1*f1 - beta2*np.log(f1) + beta3/3.*f1**(-3.) #psi_ins_f1 = psi_int_f1
+        beta0 = eta*psi_ins_tot_f1 - beta1*f1 - beta2*np.log(f1) + beta3/3.*f1**(-3.) #psi_ins_tot_f1 = psi_int_f1
        
         #INTERMEDIATE PART OF THE PHASE and its analytical derivative
 
@@ -1507,10 +1505,8 @@ class IMRPhenomD_PPE(Waveform):
                 4./3.*alpha3*f2**(3./4.) - alpha4*np.arctan((f2 - alpha5*ff_RD)/ff_damp) #psi_int_f2 = psi_MR_f2
     
         # Evaluate full merger-ringdown phase and its analytical derivative
-        psi_MR = 1./eta*(alpha0 + alpha1*ff - alpha2*ff**(-1.) + 4./3.*alpha3*ff**(3./4.) +\
-                                alpha4*np.arctan((ff - alpha5*ff_RD)/ff_damp))
-        psi_MR_prime = 1./eta*(alpha1 + alpha2*ff**(-2.) + alpha3*ff**(-1./4.) + alpha4*ff_damp/(ff_damp**2. +\
-                        (ff - alpha5*ff_RD)**2.))
+        psi_MR = 1./eta*(alpha0 + alpha1*ff - alpha2*ff**(-1.) + 4./3.*alpha3*ff**(3./4.) + alpha4*np.arctan((ff - alpha5*ff_RD)/ff_damp))
+        psi_MR_prime = 1./eta*(alpha1 + alpha2*ff**(-2.) + alpha3*ff**(-1./4.) + alpha4*ff_damp/(ff_damp**2. + (ff - alpha5*ff_RD)**2.))
     
         # Conjunction functions
         #ff1 = 0.018*ones
@@ -1530,15 +1526,10 @@ class IMRPhenomD_PPE(Waveform):
         psi_ins = psi_ins*theta_minus1
         psi_int = theta_plus1*psi_int*theta_minus2
         psi_MR = psi_MR*theta_plus2
-        
-        #psi_early_ins = psi_early_ins*theta_minus1
-        #psi_int_MR = psi_TF2*theta_plus1
     
         psi_tot = psi_ins + psi_int + psi_MR
-        #psi_tot = psi_ins + psi_int_MR 
         self.psi_tot = psi_tot
         
-        #psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+psi_int_MR_gradient(ff)*theta_plus1
         psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+theta_minus2*psi_int_prime*theta_plus1+theta_plus2*psi_MR_prime
 
         ########################### PHASE OUTPUT ###############################
@@ -1590,7 +1581,7 @@ class IMRPhenomD_PPE(Waveform):
                 + (chi_PN - 1)**3*(-1.4535031953446497e6 + 1.7063528990822166e7*eta - 4.2748659731120914e7*eta2)
         
         amp_pn_li = rho1*(ff)**(7./3.) + rho2*(ff)**(8./3.) + rho3*(ff)**3.
-        #amp_ins = amp_PN #without corrections
+        
         amp_ins = amp_PN + amp_pn_li
         
         # Conjunction frequencies
@@ -1599,7 +1590,6 @@ class IMRPhenomD_PPE(Waveform):
         amp_ins_f1 = a_0 + a_2*(np.pi*f1_amp)**(2./3.) + a_3*(np.pi*f1_amp) + a_4*(np.pi*f1_amp)**(4./3.) +\
                 a_5*(np.pi*f1_amp)**(5./3.) + a_6*(np.pi*f1_amp)**2. + rho1*f1_amp**(7./3.) +\
                 rho2*f1_amp**(8./3.) + rho3*f1_amp**3.
-    
         amp_ins_prime_f1 = 2./3.*a_2*np.pi**(2./3.)*f1_amp**(-1./3.) + a_3*np.pi + 4./3.*a_4*np.pi**(4./3.)*f1_amp**(1./3.) +\
                             5./3.*a_5*np.pi**(5./3.)*f1_amp**(2./3.) + 2*a_6*np.pi**2.*f1_amp + 7./3.*rho1*f1_amp**(4./3.) +\
                             8./3.*rho2*f1_amp**(5./3.) + 3.*rho3*f1_amp**2.
