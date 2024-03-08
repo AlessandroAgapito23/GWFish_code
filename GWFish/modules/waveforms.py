@@ -1186,6 +1186,7 @@ class TaylorF2_PPE(Waveform):
         PN = self.gw_params['PN']
         beta = self.gw_params['beta']
         
+    
         delta_phi_0 = self.gw_params['delta_phi_0']
         delta_phi_2 = self.gw_params['delta_phi_2']
         delta_phi_3 = self.gw_params['delta_phi_3']
@@ -1193,6 +1194,7 @@ class TaylorF2_PPE(Waveform):
         delta_phi_5 = self.gw_params['delta_phi_5']
         delta_phi_6 = self.gw_params['delta_phi_6']
         delta_phi_7 = self.gw_params['delta_phi_7']
+
     
 
         ########################################################################
@@ -1237,21 +1239,21 @@ class TaylorF2_PPE(Waveform):
                 phi_5 +\
                 phi_6*(np.pi*ff)**(1./3.) +\
                 phi_7*(np.pi*ff)**(2./3.))
-        
+    
         psi_gIMR = 3./(128.*eta)*delta_phi_0*((np.pi*ff)**(-5./3.) +\
                 phi_2*delta_phi_2*(np.pi*ff)**(-1.) +\
                 phi_3*delta_phi_3*(np.pi*ff)**(-2./3.) +\
                 phi_4*delta_phi_4*(np.pi*ff)**(-1./3.) +\
                 phi_5*delta_phi_5* +\
                 phi_6*delta_phi_6*(np.pi*ff)**(1./3.) +\
-                phi_7*delta_phi_7*(np.pi*ff)**(2./3.))
+                phi_7*delta_phi_7*(np.pi*ff)**(2./3.)) 
         
         psi_ppe = beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.))  #ppe correction at every b order
 
         self.psi = psi_TF2 + psi_ppe + psi_gIMR
         ########################### PHASE OUTPUT ###############################
 
-        phase = np.exp(1.j * psi_TF2)
+        phase = np.exp(1.j * self.psi)
 
         ########################### OUTPUT #####################################
         
