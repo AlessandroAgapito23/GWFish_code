@@ -1603,10 +1603,6 @@ class IMRPhenomD_PPE(Waveform):
         amp_ins_prime_f1 = 2./3.*a_2*np.pi**(2./3.)*f1_amp**(-1./3.) + a_3*np.pi + 4./3.*a_4*np.pi**(4./3.)*f1_amp**(1./3.) +\
                             5./3.*a_5*np.pi**(5./3.)*f1_amp**(2./3.) + 2*a_6*np.pi**2.*f1_amp + 7./3.*rho1*f1_amp**(4./3.) +\
                             8./3.*rho2*f1_amp**(5./3.) + 3.*rho3*f1_amp**2.
-
-        amp_ins_prime_f1 = 2./3.*a_2*np.pi**(2./3.)*f1_amp**(-1./3.) + a_3*np.pi + 4./3.*a_4*np.pi**(4./3.)*f1_amp**(1./3.) +\
-                            5./3.*a_5*np.pi**(5./3.)*f1_amp**(2./3.) + 2*a_6*np.pi**2.*f1_amp + 7./3.*rho1*f1_amp**(4./3.) +\
-                            8./3.*rho2*f1_amp**(5./3.) + 3.*rho3*f1_amp**2.
         
         ######################################## INTERMEDIATE #######################################
         
@@ -1633,7 +1629,6 @@ class IMRPhenomD_PPE(Waveform):
             
         # Conjunction frequencies
         f3_amp = (np.abs(ff_RD + (ff_damp*gamma3*(np.sqrt(1-gamma2**2.) - 1)/gamma2)))
-        #f3_amp = ff_RD
         f2_amp = (f1_amp + f3_amp)/2.
 
         
@@ -1657,8 +1652,6 @@ class IMRPhenomD_PPE(Waveform):
         
         # Full intermediate amplitude
         amp_int = (delta[0] + delta[1]*(ff) + delta[2]*(ff)**2. + delta[3]*(ff)**3. +  delta[4]*(ff)**4.)
-        # without PN corrections
-        #amp_int = delta[0] + delta[1]*(ff)**(-1./3.) + delta[2]*(ff)**(-2./3.) 
 
         ff1_amp = f1_amp*ones
         ff3_amp = f3_amp*ones
@@ -1681,7 +1674,7 @@ class IMRPhenomD_PPE(Waveform):
     
         amp_tot = amp_ins + amp_int + amp_MR
 
-        f_cut = (0.324 + 0.04894*chi_eff + 0.01346*chi_eff**2)/(cst.G*M/cst.c**3) 
+        #f_cut = (0.324 + 0.04894*chi_eff + 0.01346*chi_eff**2)/(cst.G*M/cst.c**3) 
         #f_cut = ff_RD/(cst.G*M/cst.c**3) 
         
         ############################### PROJECTIONS ############################
@@ -1690,7 +1683,7 @@ class IMRPhenomD_PPE(Waveform):
         hc = amp_tot*np.cos(iota)
         polarizations = np.hstack((hp * phase, hc * 1.j * phase))
 
-        polarizations[np.where(frequencyvector[:,0] > f_cut), :] = 0.j
+        #polarizations[np.where(frequencyvector[:,0] > f_cut), :] = 0.j
 
         ############################### OUTPUT #################################
 
