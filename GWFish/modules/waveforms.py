@@ -1523,11 +1523,11 @@ class IMRPhenomD_PPE(Waveform):
         ff1 = 0.0166*ones
         ff2 = 0.5*ff_RD*ones
     
-        theta_minus1 = 0.5*(1*ones - step_function(ff,ff1))
-        theta_minus2 = 0.5*(1*ones - step_function(ff,ff2))
+        theta_minus1 = 0.5*(1*ones - step_function(ff,ff1)) # = 0 per f>ff1
+        theta_minus2 = 0.5*(1*ones - step_function(ff,ff2)) # = 0 per f>ff2
     
-        theta_plus1 = 0.5*(1*ones + step_function(ff,ff1))
-        theta_plus2 = 0.5*(1*ones + step_function(ff,ff2))
+        theta_plus1 = 0.5*(1*ones + step_function(ff,ff1)) # = 1 per f>ff1
+        theta_plus2 = 0.5*(1*ones + step_function(ff,ff2)) # = 1 per f>ff2
       
 
       ############################ PHASE COMPONENTS ############################
@@ -1536,11 +1536,15 @@ class IMRPhenomD_PPE(Waveform):
         psi_ins = psi_ins*theta_minus1
         psi_int = theta_plus1*psi_int*theta_minus2
         psi_MR = psi_MR*theta_plus2
+        
+        psi_ppe = psi_ins*theta_minus1
+        psi = (psi_ppe-beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.)))*theta_plus1
     
        
         #psi_tot = psi_ins + psi_int + psi_MR
-        psi_tot = psi_ins
+        psi_tot = psi_ppe + psi 
         self.psi_tot = psi_tot
+        
         psi_prime_tot = psi_ins_gradient(ff)*theta_minus1+theta_minus2*psi_int_prime*theta_plus1+theta_plus2*psi_MR_prime
 
         ########################### PHASE OUTPUT ###############################
