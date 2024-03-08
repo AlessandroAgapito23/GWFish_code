@@ -199,7 +199,15 @@ class Waveform:
             #NS parameters
             'lambda_1': 0., 'lambda_2': 0., 
             #ppE parameters
-            'beta':0., 'PN':0.
+            'beta':0., 'PN':0.,
+            #gIMR
+            'delta_phi_0':0.,
+            'delta_phi_2':0.,
+            'delta_phi_3':0.,
+            'delta_phi_4':0.,
+            'delta_phi_5':0.,
+            'delta_phi_6':0.,
+            'delta_phi_7':0.
         }
 
     def update_gw_params(self, new_gw_params):
@@ -1177,6 +1185,14 @@ class TaylorF2_PPE(Waveform):
 
         PN = self.gw_params['PN']
         beta = self.gw_params['beta']
+        
+        delta_phi_0 = self.gw_params['delta_phi_0']
+        delta_phi_2 = self.gw_params['delta_phi_2']
+        delta_phi_3 = self.gw_params['delta_phi_3']
+        delta_phi_4 = self.gw_params['delta_phi_4']
+        delta_phi_5 = self.gw_params['delta_phi_5']
+        delta_phi_6 = self.gw_params['delta_phi_6']
+        delta_phi_7 = self.gw_params['delta_phi_7']
     
 
         ########################################################################
@@ -1220,10 +1236,19 @@ class TaylorF2_PPE(Waveform):
                 phi_4*(np.pi*ff)**(-1./3.) +\
                 phi_5 +\
                 phi_6*(np.pi*ff)**(1./3.) +\
-                phi_7*(np.pi*ff)**(2./3.)) +\
-                beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.))  #ppe correction at every b order
+                phi_7*(np.pi*ff)**(2./3.))
+        
+        psi_gIMR = 3./(128.*eta)*delta_phi_0*((np.pi*ff)**(-5./3.) +\
+                phi_2*delta_phi_2*(np.pi*ff)**(-1.) +\
+                phi_3*delta_phi_3*(np.pi*ff)**(-2./3.) +\
+                phi_4*delta_phi_4*(np.pi*ff)**(-1./3.) +\
+                phi_5*delta_phi_5* +\
+                phi_6*delta_phi_6*(np.pi*ff)**(1./3.) +\
+                phi_7*delta_phi_7*(np.pi*ff)**(2./3.))
+        
+        psi_ppe = beta*((np.pi*frequencyvector*Mc)**((2*PN-5.)/3.))  #ppe correction at every b order
 
-        self.psi = psi_TF2
+        self.psi = psi_TF2 + psi_ppe + psi_gIMR
         ########################### PHASE OUTPUT ###############################
 
         phase = np.exp(1.j * psi_TF2)
