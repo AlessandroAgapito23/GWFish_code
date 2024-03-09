@@ -73,7 +73,7 @@ LLO_O1:
             lon:              -90.77 * np.pi / 180.
             opening_angle:    np.pi / 2.
             azimuth:          197.7 * np.pi / 180.
-            psd_data:         LHO_O1_psd.txt
+            psd_data:         LHO_O1_fit_psd.txt
             duty_factor:      0.85
             detector_class:   earthL
             plotrange:        10, 1000, 1e-25, 1e-20
@@ -101,7 +101,7 @@ LHO_O1:
             lon:              -119.4 * np.pi / 180.
             opening_angle:    np.pi / 2.
             azimuth:          126. * np.pi / 180.
-            psd_data:         LHO_O1_psd.txt
+            psd_data:         LHO_O1_fit_psd.txt
             duty_factor:      0.85
             detector_class:   earthL
             plotrange:        10, 1000, 1e-25, 1e-20
