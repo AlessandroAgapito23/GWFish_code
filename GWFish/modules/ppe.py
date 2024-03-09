@@ -614,8 +614,10 @@ class IMRPhenomD_PPE(Waveform):
                         phi_6*(np.pi)**(1./3.)*(1./3.*ff**(4./3.)) +\
                         phi_7*(np.pi)**(2./3.)*(2./3.*ff**(5./3.))
                         )
+        
+        psi_ppe_prime = beta*(2*PN-5.)/3.*((np.pi*(ff/(cst.G*M/cst.c**3))*Mc)**((2*PN-8.)/3.))
 
-        psi_ins_prime = psi_TF2_prime + 1./eta*(sigma2*ff**(1./3.) + sigma3*ff**(2./3.) + sigma4*ff)
+        psi_ins_prime = psi_TF2_prime + psi_ppe_prime + 1./eta*(sigma2*ff**(1./3.) + sigma3*ff**(2./3.) + sigma4*ff)
 
         
         # Numerical form 
@@ -656,7 +658,8 @@ class IMRPhenomD_PPE(Waveform):
                         phi_6_f1*(np.pi)**(1./3.)*(1./3.*f1**(4./3.)) +\
                         phi_7*(np.pi)**(2./3.)*(2./3.*f1**(5./3.))
                         ) +\
-                        1./eta*(sigma2*f1**(1./3.) + sigma3*f1**(2./3.) + sigma4*f1)
+                        1./eta*(sigma2*f1**(1./3.) + sigma3*f1**(2./3.) + sigma4*f1) +\
+                        (beta*(2*PN-5.)/3.)*((np.pi*(f1/(cst.G*M/cst.c**3))*Mc)**((2*PN-8.)/3.))
 
         # Numerical form
         psi_ins_prime_f1 = psi_ins_gradient(f1) 
